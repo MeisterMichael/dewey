@@ -63,11 +63,54 @@
 					= f.label :syllabus
 					= f.text_area :syllabus, class: 'form-control wysiwyg', data: { wysiwyg: { height_min: 200, toolbar_sticky: true, toolbar_preset: 'admin_default', object_class: @course.class.base_class.name, object_id: @course.id }.to_json }
 
+				- if authorized?( Dewey::CourseCohort, controller: Dewey::CourseCohortAdminController, action: :create )
+					%a.btn.btn-success{ data: { toggle: :modal, target: '#new_course_cohort' } }
+						%i.fa.fa-plus-square
+						New
+				%table.table.table-striped.table-hover{ style: 'margin-top: 1em' }
+					%thead
+						%th Starts At
+						%th Ends At
+						%th Enrollment
+						%th Instructor
+						%th
+					%tbody
+						- if @course_cohorts.blank?
+							%tr
+								%td{ colspan: 5 } - No Cohorts -
+						- @course_cohorts.each do |course_cohort|
+							%tr
+								%td
+									= current_user.to_local_tz( course_cohort.starts_at ).to_s( :slashed_time )
+								%td
+									- if course_cohort.ends_at
+										= current_user.to_local_tz( course_cohort.ends_at ).to_s( :slashed_time )
+									- else
+										\-
+								%td=course_cohort.enrollments.count
+								%td
+									= course_cohort.instructor
+								%td
+									.btn-group
+										%button.btn.btn-mini.btn-default.dropdown-toggle{ data: { toggle: :dropdown } }
+											%i.fa.fa-cog
+											%b.caret
+										%ul.dropdown-menu
+											%li
+												%a{ href: edit_course_cohort_admin_path( course_cohort.id ) }
+													%i.fa.fa-pencil
+													Edit
+											%li.divider
+											%li
+												%a{ href: course_cohort_admin_path( course_cohort ), data: { method: 'delete', confirm: 'Are you sure?' } }
+													%i.fa.fa-trash-o
+													Delete!
+
 
 			.col-xs-4
 				.well
 					.form-group
-						= f.label :instructor_id, 'Author'
+						= f.label :instructor_id, 'Instructor'
 						= f.collection_select :instructor_id, User.where( "role > 1" ), :id, :full_name, { include_blank: '-- None -- ' }, class: 'form-control'
 					.form-group
 						= f.label :publish_at
@@ -75,8 +118,14 @@
 					-# .form-group
 						= f.label :category_id
 						= f.collection_select :category_id, Dewey::CourseCategory.active.order( :name ), :id, :name, { include_blank: '-- None -- ' }, class: 'form-control'
-					-# .form-group
-						= f.text_field :category_name, class: 'form-control', placeholder: 'Add Category'
+					.form-group
+						= f.label :max_cohort_size
+						= f.number_field :max_cohort_size, class: 'form-control', min: 1, step: 1, placeholder: 'unlimited'
+
+					.form-group
+						= f.label :duration_humanize, "Duration"
+						= f.text_field :duration_humanize, class: 'form-control', placeholder: 'unlimited'
+
 					.form-group
 						= f.label :status
 						= f.collection_select :status, Dewey::Course.statuses, :first, :first, {}, class: 'form-control'
@@ -95,3 +144,5 @@
 
 					.form-group
 						= f.submit 'Update', class: 'btn btn-primary'
+
+= render 'dewey/course_cohort_admin/new_modal', course: @course, args: {}

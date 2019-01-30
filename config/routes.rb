@@ -5,4 +5,6 @@ Dewey::Engine.routes.draw do
 		delete :empty_trash, on: :collection
 	end
 
+	resources :course_cohort_admin
+
 end

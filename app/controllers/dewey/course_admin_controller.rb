@@ -28,14 +28,7 @@ module Dewey
 
 		def edit
 			authorize( @course )
-			# create new working version if none exists or if not a draft
-			# unless @course.working_media_version.try(:draft?)
-			#
-			# 	@course.update working_media_version: @course.media_versions.create
-			#
-			# end
-			#
-			# @current_draft = @course.working_media_version
+			@course_cohorts = @course.course_cohorts.order(id: :desc).page(params[:page]).per(20)
 		end
 
 
@@ -93,7 +86,7 @@ module Dewey
 
 		private
 			def course_params
-				params.require( :course ).permit( :title, :description, :syllabus, :slug_pref, :status, :course_type, :lesson_schedule, :start_schedule, :instructor_id, :avatar_attachment, :cover_attachment, { embedded_attachments: [], other_attachments: [] } )
+				params.require( :course ).permit( :title, :description, :syllabus, :slug_pref, :publish_at, :max_cohort_size, :status, :course_type, :lesson_schedule, :start_schedule, :instructor_id, :duration_humanize, :avatar_attachment, :cover_attachment, { embedded_attachments: [], other_attachments: [] } )
 			end
 
 			def get_course

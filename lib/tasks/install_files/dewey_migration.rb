@@ -1,4 +1,4 @@
-class DeweyBaseMigration < ActiveRecord::Migration[5.1]
+class DeweyMigration < ActiveRecord::Migration[5.1]
 
 	def change
 
@@ -9,7 +9,8 @@ class DeweyBaseMigration < ActiveRecord::Migration[5.1]
 			t.text				:syllabus
 			t.string			:slug
 			t.datetime		:publish_at, default: nil
-			t.integer			:max_cohort_size
+			t.interval		:duration, default: nil
+			t.integer			:max_cohort_size, default: nil
 			t.integer 		:status, default: 0
 			t.integer 		:course_type, default: 1
 			t.integer 		:lesson_schedule, default: 1
@@ -18,10 +19,12 @@ class DeweyBaseMigration < ActiveRecord::Migration[5.1]
 			t.timestamps
 		end
 
-		create_table :dewey_course_cohort do |t|
+		create_table :dewey_course_cohorts do |t|
 			t.references	:course
-			t.datetime		:start_at
-			t.datetime		:end_at, default: nil
+			t.datetime		:starts_at
+			t.datetime		:ends_at, default: nil
+			t.datetime		:enrollment_starts_at
+			t.datetime		:enrollment_ends_at, default: nil
 			t.references	:instructor, default: nil
 			t.timestamps
 		end
@@ -31,13 +34,15 @@ class DeweyBaseMigration < ActiveRecord::Migration[5.1]
 			t.references	:lesson
 			t.datetime		:started_at, default: nil
 			t.datetime		:completed_at, default: nil
+			t.float				:score, default: nil
 			t.timestamps
 		end
 
 		create_table :dewey_enrollments do |t|
 			t.references	:course_cohort
 			t.references	:user
-			t.datetime		:start_at
+			t.datetime		:started_at
+			t.datetime		:ends_at, default: nil
 			t.datetime		:completed_at, default: nil
 			t.float				:score, default: nil
 			t.timestamps
