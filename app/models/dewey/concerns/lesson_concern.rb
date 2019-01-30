@@ -1,11 +1,11 @@
 module Dewey
 	module Concerns
 
-		module ApplicationControllerConcern
+		module LessonConcern
 			extend ActiveSupport::Concern
 
 			included do
-				helper Dewey::ApplicationHelper
+
 			end
 
 
@@ -14,15 +14,18 @@ module Dewey
 
 			module ClassMethods
 
+
+
 			end
 
 
 			####################################################
 			# Instance Methods
 
-
 			protected
 
+
 		end
+
 	end
 end

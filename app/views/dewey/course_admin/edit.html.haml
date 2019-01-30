@@ -23,23 +23,16 @@
 			.col-xs-8
 				.form-group
 					= f.text_field :title, class: 'form-control input-lg'
-				.form-group
-					= f.label :subtitle
-					= f.text_field :subtitle, class: 'form-control'
 
 				.form-group
 					= f.label :slug_pref, 'URL for this course:'
 					.input-group
 						%span.input-group-addon
-							= Pulitzer.app_host
+							= Pulitzer.app_host + @course.class.mounted_path
 						= f.text_field :slug_pref, class: 'form-control', placeholder: @course.slug
 						%span.input-group-btn
 							%a.btn.btn-default{ 'data-clipboard-text' => @course.url }
 								%i.fa.fa-clipboard
-
-					= f.label :redirect_url, 'Redirect to:'
-					= f.text_field :redirect_url, class: 'form-control'
-
 
 				.row
 					.col-xs-4
@@ -57,27 +50,25 @@
 						.form-group
 							= f.label :cover_attachment, "Cover Image"
 							= f.file_field :cover_attachment
-							- if @course.cover_image
-								= image_tag @course.cover_image, class: 'img-responsive'
-								%a.btn.btn-default{ 'data-clipboard-text' => @course.cover_image }
+							- if @course.cover_attachment.attached?
+								= image_tag @course.cover_attachment.service_url, class: 'img-responsive'
+								%a.btn.btn-default{ 'data-clipboard-text' => @course.cover_attachment.service_url }
 									%i.fa.fa-clipboard
 
-				.form-group
-					= f.label :avatar_caption, 'Caption'
-					= f.text_area :avatar_caption, class: 'form-control wysiwyg', data: { wysiwyg: { toolbar_sticky: false, toolbar_preset: 'admin_lite' }.to_json }
 				.form-group
 					= f.label :description, 'Summary'
 					= f.text_area :description, class: 'form-control wysiwyg', data: { wysiwyg: { height_min: 100, toolbar_sticky: false, toolbar_preset: 'admin_default', object_class: @course.class.base_class.name, object_id: @course.id }.to_json }
 
 				.form-group
-					= f.text_area :content, class: 'form-control wysiwyg', data: { wysiwyg: { height_min: 200, toolbar_sticky: true, toolbar_preset: 'admin_default', object_class: @course.class.base_class.name, object_id: @course.id }.to_json }
+					= f.label :syllabus
+					= f.text_area :syllabus, class: 'form-control wysiwyg', data: { wysiwyg: { height_min: 200, toolbar_sticky: true, toolbar_preset: 'admin_default', object_class: @course.class.base_class.name, object_id: @course.id }.to_json }
 
 
 			.col-xs-4
 				.well
 					.form-group
-						= f.label :user_id, 'Author'
-						= f.collection_select :user_id, User.where( "role > 1" ), :id, :full_name, { include_blank: '-- None -- ' }, class: 'form-control'
+						= f.label :instructor_id, 'Author'
+						= f.collection_select :instructor_id, User.where( "role > 1" ), :id, :full_name, { include_blank: '-- None -- ' }, class: 'form-control'
 					.form-group
 						= f.label :publish_at
 						= f.text_field :publish_at, value: current_user.to_local_tz( @course.publish_at ), class: 'form-control datetimepicker'
@@ -89,17 +80,18 @@
 					.form-group
 						= f.label :status
 						= f.collection_select :status, Dewey::Course.statuses, :first, :first, {}, class: 'form-control'
+
 					.form-group
-						= f.label :availability
-						= f.collection_select :availability, Dewey::Course.availabilities, :first, :first, {}, class: 'form-control'
+						= f.label :course_type
+						= f.collection_select :course_type, Dewey::Course.course_types, :first, :first, {}, class: 'form-control'
+
 					.form-group
-						= f.label :tags_csv, 'Tags:'
-						= f.text_field :tags_csv, placeholder: 'Separate tags with commas', class: 'form-control'
+						= f.label :lesson_schedule
+						= f.collection_select :lesson_schedule, Dewey::Course.lesson_schedules, :first, :first, {}, class: 'form-control'
+
 					.form-group
-						= f.check_box :is_sticky, {}, 'true', 'false'
-						Feature?
-					.form-group
-						= f.check_box :is_commentable, {}, 'true', 'false'
-						Allow Comments?
+						= f.label :start_schedule
+						= f.collection_select :start_schedule, Dewey::Course.start_schedules, :first, :first, {}, class: 'form-control'
+
 					.form-group
 						= f.submit 'Update', class: 'btn btn-primary'

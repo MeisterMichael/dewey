@@ -4,13 +4,7 @@ module Dewey
 
 		def create
 			@course = Course.new( course_params )
-			@course.publish_at ||= Time.zone.now
-			@course.user ||= current_user
 			@course.status = 'draft'
-
-			if params[:course][:category_name].present?
-				@course.category = Category.where( name: params[:course][:category_name] ).first_or_create( status: 'active' )
-			end
 
 			authorize( @course )
 
@@ -64,10 +58,6 @@ module Dewey
 				@courses = eval "@courses.#{params[:status]}"
 			end
 
-			if params[:q].present?
-				@courses = @courses.where( "array[:q] && keywords", q: params[:q].downcase )
-			end
-
 			@courses = @courses.page( params[:page] )
 		end
 
@@ -87,12 +77,6 @@ module Dewey
 			@course.slug = nil if ( params[:course][:title] != @course.title ) || ( params[:course][:slug_pref].present? )
 
 			@course.attributes = course_params
-			@course.avatar_urls = params[:course][:avatar_urls] if params[:course].present? && params[:course][:avatar_urls].present?
-
-
-			if params[:course][:category_name].present?
-				@course.category = Category.where( name: params[:course][:category_name] ).first_or_create( status: 'active' )
-			end
 
 			authorize( @course )
 
@@ -109,7 +93,7 @@ module Dewey
 
 		private
 			def course_params
-				params.require( :course ).permit( :title, :subtitle, :avatar_caption, :slug_pref, :description, :content, :category_id, :status, :publish_at, :show_title, :is_commentable, :is_sticky, :user_id, :tags, :tags_csv, :redirect_url, :avatar_attachment, :cover_attachment, { embedded_attachments: [], other_attachments: [] } )
+				params.require( :course ).permit( :title, :description, :syllabus, :slug_pref, :status, :course_type, :lesson_schedule, :start_schedule, :instructor_id, :avatar_attachment, :cover_attachment, { embedded_attachments: [], other_attachments: [] } )
 			end
 
 			def get_course

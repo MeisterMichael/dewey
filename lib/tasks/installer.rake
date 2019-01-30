@@ -4,6 +4,8 @@ namespace :dewey do
 		puts "Installing Dewey. Who goes there?"
 
 		files = {
+			'lesson.rb' => 'app/models',
+			'lesson_controller.rb' => 'app/controllers',
 		}
 
 
