@@ -1,0 +1,105 @@
+
+
+.container-fluid
+	.row
+		.col-xs-10
+			%ul.breadcrumb
+				%li
+					= link_to 'Admin', main_app.admin_index_path
+				%li
+					= link_to 'Course Admin', course_admin_index_path
+				%li
+					%strong
+						Edit
+						= @course.title
+		.col-xs-2
+			%a.btn.btn-primary{ href: preview_course_admin_path( @course.id ), target: '_new' }
+				%i.fa.fa-eye
+				Preview
+
+	= form_for @course, url: course_admin_path( @course ) do |f|
+
+		.row
+			.col-xs-8
+				.form-group
+					= f.text_field :title, class: 'form-control input-lg'
+				.form-group
+					= f.label :subtitle
+					= f.text_field :subtitle, class: 'form-control'
+
+				.form-group
+					= f.label :slug_pref, 'URL for this course:'
+					.input-group
+						%span.input-group-addon
+							= Pulitzer.app_host
+						= f.text_field :slug_pref, class: 'form-control', placeholder: @course.slug
+						%span.input-group-btn
+							%a.btn.btn-default{ 'data-clipboard-text' => @course.url }
+								%i.fa.fa-clipboard
+
+					= f.label :redirect_url, 'Redirect to:'
+					= f.text_field :redirect_url, class: 'form-control'
+
+
+				.row
+					.col-xs-4
+
+						.form-group
+							= f.label :avatar_attachment, "Avatar Image"
+							= f.file_field :avatar_attachment
+							- if @course.avatar
+								= image_tag @course.avatar, class: 'img-responsive'
+								%a.btn.btn-default{ 'data-clipboard-text' => @course.avatar }
+									%i.fa.fa-clipboard
+
+					.col-xs-4
+
+						.form-group
+							= f.label :cover_attachment, "Cover Image"
+							= f.file_field :cover_attachment
+							- if @course.cover_image
+								= image_tag @course.cover_image, class: 'img-responsive'
+								%a.btn.btn-default{ 'data-clipboard-text' => @course.cover_image }
+									%i.fa.fa-clipboard
+
+				.form-group
+					= f.label :avatar_caption, 'Caption'
+					= f.text_area :avatar_caption, class: 'form-control wysiwyg', data: { wysiwyg: { toolbar_sticky: false, toolbar_preset: 'admin_lite' }.to_json }
+				.form-group
+					= f.label :description, 'Summary'
+					= f.text_area :description, class: 'form-control wysiwyg', data: { wysiwyg: { height_min: 100, toolbar_sticky: false, toolbar_preset: 'admin_default', object_class: @course.class.base_class.name, object_id: @course.id }.to_json }
+
+				.form-group
+					= f.text_area :content, class: 'form-control wysiwyg', data: { wysiwyg: { height_min: 200, toolbar_sticky: true, toolbar_preset: 'admin_default', object_class: @course.class.base_class.name, object_id: @course.id }.to_json }
+
+
+			.col-xs-4
+				.well
+					.form-group
+						= f.label :user_id, 'Author'
+						= f.collection_select :user_id, User.where( "role > 1" ), :id, :full_name, { include_blank: '-- None -- ' }, class: 'form-control'
+					.form-group
+						= f.label :publish_at
+						= f.text_field :publish_at, value: current_user.to_local_tz( @course.publish_at ), class: 'form-control datetimepicker'
+					-# .form-group
+						= f.label :category_id
+						= f.collection_select :category_id, Dewey::CourseCategory.active.order( :name ), :id, :name, { include_blank: '-- None -- ' }, class: 'form-control'
+					-# .form-group
+						= f.text_field :category_name, class: 'form-control', placeholder: 'Add Category'
+					.form-group
+						= f.label :status
+						= f.collection_select :status, Dewey::Course.statuses, :first, :first, {}, class: 'form-control'
+					.form-group
+						= f.label :availability
+						= f.collection_select :availability, Dewey::Course.availabilities, :first, :first, {}, class: 'form-control'
+					.form-group
+						= f.label :tags_csv, 'Tags:'
+						= f.text_field :tags_csv, placeholder: 'Separate tags with commas', class: 'form-control'
+					.form-group
+						= f.check_box :is_sticky, {}, 'true', 'false'
+						Feature?
+					.form-group
+						= f.check_box :is_commentable, {}, 'true', 'false'
+						Allow Comments?
+					.form-group
+						= f.submit 'Update', class: 'btn btn-primary'

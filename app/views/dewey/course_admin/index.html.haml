@@ -1,0 +1,118 @@
+
+
+
+.container-fluid
+	.row
+		.col-xs-10
+			%ul.breadcrumb
+				%li
+					= link_to 'Admin', main_app.admin_index_path
+				%li
+					%strong
+						Course Admin
+						= "(#{pluralize @courses.total_count, 'Course'})"
+
+		.col-xs-2
+			- if authorized?( Dewey::Course, controller: Dewey::CourseAdminController, action: :create )
+				%a.btn.btn-success{ data: { toggle: :modal, target: '#new_course' } }
+					%i.fa.fa-plus-square
+					New
+	.row
+		.col-xs-6
+			= raw paginate @courses
+		.col-xs-6
+			= form_tag course_admin_index_path, method: :get, class: 'pull-right form-inline' do
+				= select_tag :status, options_from_collection_for_select( Dewey::Course.statuses, :first, :first, params[:status] ), { prompt: "-- All --", class: 'form-control' }
+				= text_field_tag :q, params[:q], class: 'form-control'
+				= submit_tag 'Search', class: 'btn btn-primary'
+				= link_to 'Clear', course_admin_index_path, class: 'btn btn-default btn-xs'
+
+	.row
+		.col-xs-12
+			%table.table.table-striped.table-hover{ style: 'margin-top: 1em' }
+				%thead
+					%th
+					%th
+						Title
+						%a{ href: course_admin_index_path( sort_by: 'title', sort_dir: 'asc' ) }
+							%i.fa.fa-arrow-up
+						%a{ href: course_admin_index_path( sort_by: 'title', sort_dir: 'desc' ) }
+							%i.fa.fa-arrow-down
+
+					%th
+						Publish
+						%a{ href: course_admin_index_path( sort_by: 'publish_at', sort_dir: 'asc' ) }
+							%i.fa.fa-arrow-up
+						%a{ href: course_admin_index_path( sort_by: 'publish_at', sort_dir: 'desc' ) }
+							%i.fa.fa-arrow-down
+
+					%th
+						Words
+						%a{ href: course_admin_index_path( sort_by: 'cached_word_count', sort_dir: 'asc' ) }
+							%i.fa.fa-arrow-up
+						%a{ href: course_admin_index_path( sort_by: 'cached_word_count', sort_dir: 'desc' ) }
+							%i.fa.fa-arrow-down
+
+					%th Status
+					%th Category
+					%th Tags
+					%th
+				%tbody
+					- @courses.each do |course|
+						%tr
+							%td
+								= image_tag course.avatar.to_s, width: 50, class: 'img img-rounded'
+							%td
+								.title{ style: 'font-size:120%;' }= link_to course.title, edit_course_admin_path( course.id )
+								%a.btn{ 'data-clipboard-text' => course.url, style: 'padding:0;border:none;' }
+									= course.path
+									%i.fa.fa-clipboard
+							%td
+								= course.publish_at.to_s( :slashed_time )
+							%td
+								= course.try( :cached_word_count ) || 'N/A'
+							%td
+								- if course.published?
+									.badge{ class: course.status }
+										Live
+								- elsif course.draft?
+									.badge{ class: course.status }
+										Draft
+								- elsif course.active?
+									.badge{ class: 'pending' }
+										Pending
+								- else
+									.badge{ class: course.status }
+										= course.status
+							%td
+								= course.category.try( :name ) || 'None'
+							%td
+								= course.tags.join(', ')
+							%td
+								.btn-group
+									%button.btn.btn-mini.btn-default.dropdown-toggle{ data: { toggle: :dropdown } }
+										%i.fa.fa-cog
+										%b.caret
+									%ul.dropdown-menu
+										%li
+											%a{ href: edit_course_admin_path( course.id ) }
+												%i.fa.fa-pencil
+												Edit
+
+										%li
+											%a{ href: preview_course_admin_path( course.id ) }
+												%i.fa.fa-eye
+												Preview
+										%li.divider
+										%li
+											%a{ href: course_admin_path( course ), data: { method: 'delete', confirm: 'Are you sure?' } }
+												%i.fa.fa-trash-o
+												Delete!
+
+- if Dewey::Course.trash.present?
+	.pull-right{ style: 'margin-right:2em;' }
+		%a{ href: empty_trash_course_admin_index_path, data: { method: 'delete', confirm: 'Are you sure?' } }
+			%btn.btn.btn-danger
+				empty trash
+
+= render 'new_modal'
