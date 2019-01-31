@@ -49,10 +49,12 @@ class DeweyMigration < ActiveRecord::Migration[5.1]
 			t.timestamps
 		end
 
-		create_table :dewey_lessons do |t|
+		create_table :lessons do |t|
 			t.references	:course
 			t.string			:title
+			t.string			:avatar
 			t.text				:description
+			t.integer 		:seq, default: 0
 			t.integer 		:status, default: 0
 			t.interval		:duration, default: nil
 			t.text				:overview

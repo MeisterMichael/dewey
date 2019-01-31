@@ -2,7 +2,7 @@
 	.row
 		.col
 			%h1 Courses
-	- @courses.blank?
+	- if @courses.blank?
 		.row
 			.col - No Courses -
 	- @courses.each do |course|

@@ -16,7 +16,7 @@
 						= @lesson.title
 		.col-xs-2
 
-	= form_for @lesson, url: lesson_admin_path( @lesson ) do |f|
+	= form_for @lesson, url: main_app.lesson_admin_path( @lesson.id ) do |f|
 
 		.row
 			.col-xs-8

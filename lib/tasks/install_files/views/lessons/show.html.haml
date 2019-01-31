@@ -5,7 +5,8 @@
 				%ol.breadcrumb
 					%li.breadcrumb-item
 						%a{ href: @lesson.course.url }
-					%li.breadcrumb-item.active{ 'aria-current' => 'page' } Lesson
+							= @lesson.course.title
+					%li.breadcrumb-item.active{ 'aria-current' => 'page' }=@lesson.title
 
 			%h1= @lesson.title
 			%h2 Overview

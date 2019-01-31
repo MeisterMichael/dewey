@@ -1,0 +1,36 @@
+
+
+.container-fluid
+	.row
+		.col-xs-10
+			%ul.breadcrumb
+				%li
+					= link_to 'Admin', main_app.admin_index_path
+				%li
+					= link_to 'Course Admin', dewey.course_admin_index_path
+				%li
+					= link_to @lesson.course.title, dewey.course_admin_path( @lesson.course )
+				%li
+					%strong
+						New Lesson
+		.col-xs-2
+
+	= form_for @lesson, url: lesson_admin_index_path() do |f|
+		= f.hidden_field :course_id
+
+		.row
+			.col-xs-8
+				.form-group
+					= f.text_field :title, class: 'form-control'
+
+				.form-group
+					= f.label :seq, "Sequence"
+					= f.number_field :seq, class: 'form-control', step: 1
+
+
+				.form-group
+					= f.label :description, 'Summary'
+					= f.text_area :description, class: 'form-control wysiwyg', data: { wysiwyg: { height_min: 100, toolbar_sticky: false, toolbar_preset: 'admin_default', object_class: @lesson.class.base_class.name, object_id: @lesson.id }.to_json }
+
+				.form-group
+					= f.submit 'Create', class: 'btn btn-primary'
