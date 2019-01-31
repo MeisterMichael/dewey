@@ -4,8 +4,12 @@ namespace :dewey do
 		puts "Installing Dewey. Who goes there?"
 
 		files = {
+			'course_controller.rb' => 'app/controllers',
 			'lesson.rb' => 'app/models',
 			'lesson_controller.rb' => 'app/controllers',
+			'views/lesson_admin' => 'app/views',
+			'views/lessons' => 'app/views',
+			'views/courses' => 'app/views',
 		}
 
 
@@ -50,6 +54,10 @@ namespace :dewey do
     		FileUtils.cp_r source, target
     		prefix += 1
 		end
+
+		puts "Add the following to your config/routes.rb"
+		puts "resources :lesson_admin"
+		puts "resources :lessons"
 
 	end
 

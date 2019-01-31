@@ -12,6 +12,7 @@ class DeweyMigration < ActiveRecord::Migration[5.1]
 			t.interval		:duration, default: nil
 			t.integer			:max_cohort_size, default: nil
 			t.integer 		:status, default: 0
+			t.integer 		:availability, default: 1
 			t.integer 		:course_type, default: 1
 			t.integer 		:lesson_schedule, default: 1
 			t.integer 		:start_schedule, default: 1
@@ -45,6 +46,17 @@ class DeweyMigration < ActiveRecord::Migration[5.1]
 			t.datetime		:ends_at, default: nil
 			t.datetime		:completed_at, default: nil
 			t.float				:score, default: nil
+			t.timestamps
+		end
+
+		create_table :dewey_lessons do |t|
+			t.references	:course
+			t.string			:title
+			t.text				:description
+			t.integer 		:status, default: 0
+			t.interval		:duration, default: nil
+			t.text				:overview
+			t.text				:content
 			t.timestamps
 		end
 

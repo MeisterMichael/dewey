@@ -9,8 +9,10 @@ module Dewey
 	class << self
 
 		# engine configuration settings accessors
+		mattr_accessor :courses_path
 
 		# settings defaults
+		self.courses_path = '/courses'
 
 	end
 

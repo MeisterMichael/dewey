@@ -1,0 +1,13 @@
+.container
+	.row
+		.col-12
+			%nav{ 'aria-label' => 'breadcrumb' }
+				%ol.breadcrumb
+					%li.breadcrumb-item
+						%a{ href: courses_path() }
+					%li.breadcrumb-item.active{ 'aria-current' => 'page' } Course
+
+			%h1= @course.title
+			%h2 Syllabus
+			.fr-view.mtb-30
+				= raw @lesson.syllabus

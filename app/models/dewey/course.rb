@@ -4,7 +4,9 @@ module Dewey
 		#include Pulitzer::Concerns::ExpiresCache
 		include Dewey::CourseSearchable if (Dewey::CourseSearchable rescue nil)
 
-		mounted_at '/courses'
+		before_save :set_avatar
+
+		mounted_at Dewey.courses_path
 
 		belongs_to :instructor, class_name: 'User', optional: true
 
@@ -14,6 +16,7 @@ module Dewey
 		has_many :lessons, class_name: 'Lesson'
 
 		enum status: { 'trash' => -100, 'not_available' => -50, 'wait_listed' => -1, 'draft' => 0, 'active' => 1 }
+		enum availability: { 'anyone' => 1, 'enrolled' => 2, 'invite_only' => 3 }
 		enum course_type: { 'physical' => 1, 'digital' => 2 }
 		enum lesson_schedule: { 'binged_lessons' => 1, 'time_released_lessons' => 2 }
 		enum start_schedule: { 'on_demand_start' => 1, 'scheduled_start' => 2 }
@@ -61,6 +64,48 @@ module Dewey
 			return nil if self.duration.nil?
 			parts = self.duration.split(':')
 			parts.first.to_f.hours + parts.second.to_f.minutes + parts.third.to_f.seconds
+		end
+
+		def page_meta
+			if self.title.present?
+				title = "#{self.title} | #{Pulitzer.app_name}"
+			else
+				title = Pulitzer.app_name
+			end
+
+			return {
+				page_title: title,
+				title: self.title,
+				image: self.avatar,
+				url: self.url,
+				twitter_format: 'summary_large_image',
+				type: 'article',
+				og: {
+					"article:published_time" => self.publish_at.try(:iso8601),
+					"article:author" => self.instructor.to_s
+				},
+				data: {
+					'url' => self.url,
+					'name' => self.title,
+					'datePublished' => self.publish_at.try(:iso8601),
+					'author' => self.instructor.to_s,
+					'image' => self.avatar
+				}
+
+			}
+		end
+
+		def self.published( args = {} )
+			where( "dewey_courses.publish_at <= :now", now: Time.zone.now ).active
+		end
+
+		def published?
+			active? && publish_at < Time.zone.now
+		end
+
+		def set_avatar
+			self.avatar = self.avatar_attachment.service_url if self.avatar_attachment.attached?
+			self.cover_image = self.cover_attachment.service_url if self.cover_attachment.attached?
 		end
 
 		def slugger

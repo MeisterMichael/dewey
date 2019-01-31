@@ -63,6 +63,41 @@
 					= f.label :syllabus
 					= f.text_area :syllabus, class: 'form-control wysiwyg', data: { wysiwyg: { height_min: 200, toolbar_sticky: true, toolbar_preset: 'admin_default', object_class: @course.class.base_class.name, object_id: @course.id }.to_json }
 
+				- if authorized?( ::Lesson, controller: ::LessonAdminController, action: :create )
+					%a.btn.btn-success{ href: main_app.new_lesson_admin_path( course_id: @course.id ) }
+						%i.fa.fa-plus-square
+						New
+				%table.table.table-striped.table-hover{ style: 'margin-top: 1em' }
+					%thead
+						%th Title
+						%th Sequence
+						%th Status
+						%th
+					%tbody
+						- if @lessons.blank?
+							%tr
+								%td{ colspan: 4 } - No Lessons -
+						- @lessons.each do |lesson|
+							%tr
+								%td
+									%a{ href: main_app.edit_lesson_admin_path( lesson.id ) }
+										= lesson.title
+								%td
+									= lesson.seq
+								%td
+									= lesson.status
+								%td
+									.btn-group
+										%button.btn.btn-mini.btn-default.dropdown-toggle{ data: { toggle: :dropdown } }
+											%i.fa.fa-cog
+											%b.caret
+										%ul.dropdown-menu
+											%li
+												%a{ href: main_app.edit_lesson_admin_path( lesson.id ) }
+													%i.fa.fa-pencil
+													Edit
+
+
 				- if authorized?( Dewey::CourseCohort, controller: Dewey::CourseCohortAdminController, action: :create )
 					%a.btn.btn-success{ data: { toggle: :modal, target: '#new_course_cohort' } }
 						%i.fa.fa-plus-square
@@ -129,6 +164,10 @@
 					.form-group
 						= f.label :status
 						= f.collection_select :status, Dewey::Course.statuses, :first, :first, {}, class: 'form-control'
+
+					.form-group
+						= f.label :availability
+						= f.collection_select :availability, Dewey::Course.availabilities, :first, :first, {}, class: 'form-control'
 
 					.form-group
 						= f.label :course_type

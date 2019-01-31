@@ -1,0 +1,16 @@
+.container
+	.row
+		.col-12
+			%nav{ 'aria-label' => 'breadcrumb' }
+				%ol.breadcrumb
+					%li.breadcrumb-item
+						%a{ href: @lesson.course.url }
+					%li.breadcrumb-item.active{ 'aria-current' => 'page' } Lesson
+
+			%h1= @lesson.title
+			%h2 Overview
+			.fr-view.mtb-30
+				= raw @lesson.overview
+			%hr
+			.fr-view.mtb-30
+				= raw @lesson.content

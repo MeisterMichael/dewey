@@ -1,0 +1,18 @@
+.container
+	.row
+		.col
+			%h1 Courses
+	- @courses.blank?
+		.row
+			.col - No Courses -
+	- @courses.each do |course|
+		.row
+			.col-12.col-md-4
+				%a{ href: course.url }
+					- if course.avatar.present?
+						%img.img-flex{ src: course.avatar }
+					%h4= course.title
+					%p= raw course.description
+	.row
+		.col
+			= raw paginate @courses

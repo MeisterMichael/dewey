@@ -46,16 +46,7 @@
 						%a{ href: course_admin_index_path( sort_by: 'publish_at', sort_dir: 'desc' ) }
 							%i.fa.fa-arrow-down
 
-					%th
-						Words
-						%a{ href: course_admin_index_path( sort_by: 'cached_word_count', sort_dir: 'asc' ) }
-							%i.fa.fa-arrow-up
-						%a{ href: course_admin_index_path( sort_by: 'cached_word_count', sort_dir: 'desc' ) }
-							%i.fa.fa-arrow-down
-
 					%th Status
-					%th Category
-					%th Tags
 					%th
 				%tbody
 					- @courses.each do |course|
@@ -68,9 +59,10 @@
 									= course.path
 									%i.fa.fa-clipboard
 							%td
-								= course.publish_at.to_s( :slashed_time )
-							%td
-								= course.try( :cached_word_count ) || 'N/A'
+								- if course.publish_at
+									= course.publish_at.to_s( :slashed_time )
+								- else
+									\-
 							%td
 								- if course.published?
 									.badge{ class: course.status }
@@ -84,10 +76,6 @@
 								- else
 									.badge{ class: course.status }
 										= course.status
-							%td
-								= course.category.try( :name ) || 'None'
-							%td
-								= course.tags.join(', ')
 							%td
 								.btn-group
 									%button.btn.btn-mini.btn-default.dropdown-toggle{ data: { toggle: :dropdown } }

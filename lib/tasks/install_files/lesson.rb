@@ -1,8 +1,7 @@
-class Lesson < Pulitzer::Media
+class Lesson < ActiveRecord
 	include Dewey::Concerns::LessonConcern
+	include Pulitzer::Concerns::URLConcern
+	mounted_at '/lessons'
 
-	def page_meta
-		super()
-	end
 
 end
