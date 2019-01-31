@@ -56,8 +56,12 @@ namespace :dewey do
 		end
 
 		puts "Add the following to your config/routes.rb"
-		puts "resources :lesson_admin"
-		puts "resources :lessons"
+		puts "resources :courses"
+		puts "resources :enrollment_lessons do"
+		puts "	put :complete, on: :member"
+		puts "	patch :complete, on: :member"
+		puts "end"
+		puts "resources :enrollments"
 
 	end
 

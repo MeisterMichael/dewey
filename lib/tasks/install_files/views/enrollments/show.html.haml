@@ -1,0 +1,47 @@
+.container
+	.row
+		.col-12
+			%nav{ 'aria-label' => 'breadcrumb' }
+				%ol.breadcrumb
+					%li.breadcrumb-item
+						%a{ href: enrollments_path() } My Courses
+					%li.breadcrumb-item.active{ 'aria-current' => 'page' }= @course.title
+
+			%h1= @course.title
+			%h2 Syllabus
+			.fr-view.mtb-30
+				= raw @course.syllabus
+			.mt-5
+				- @enrollment.enrollment_lessons.joins(:lesson).includes(:lesson).order( 'lessons.seq asc' ).each do |enrollment_lesson|
+					- if not( enrollment_lesson.published? )
+						.row
+							.col
+								= enrollment_lesson.lesson.title
+							.col
+								\-
+							.col.text-right
+								\-
+					- elsif enrollment_lesson.completed_at.present?
+						.row
+							.col
+								%a{ href: main_app.enrollment_lesson_path(enrollment_lesson) }= enrollment_lesson.lesson.title
+							.col
+								Complete
+							.col.text-right
+								%a{ href: main_app.enrollment_lesson_path(enrollment_lesson) } View
+					- elsif enrollment_lesson.started_at.present?
+						.row
+							.col
+								%a{ href: main_app.enrollment_lesson_path(enrollment_lesson) }= enrollment_lesson.lesson.title
+							.col
+								Started
+							.col.text-right
+								%a{ href: main_app.enrollment_lesson_path(enrollment_lesson) } Resume
+					- else
+						.row
+							.col
+								%a{ href: main_app.enrollment_lesson_path(enrollment_lesson) }= enrollment_lesson.lesson.title
+							.col
+								New
+							.col.text-right
+								%a{ href: main_app.enrollment_lesson_path(enrollment_lesson) } Start

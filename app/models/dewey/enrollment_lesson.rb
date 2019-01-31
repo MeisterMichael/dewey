@@ -2,9 +2,6 @@ module Dewey
 	class EnrollmentLesson < ApplicationRecord
 		belongs_to :lesson, class_name: 'Lesson'
 		belongs_to :enrollment
-		belongs_to :user, through: :enrollment
-		belongs_to :course_cohort, through: :enrollment
-		belongs_to :course, through: :course_cohort
 
 
 		def course_cohort
@@ -15,10 +12,18 @@ module Dewey
 			self.course_cohort.course
 		end
 
+		def self.published( args = {} )
+			where( "dewey_courses.published_at <= :now", now: Time.zone.now )
+		end
+
+		def published?
+			published_at < Time.zone.now
+		end
+
 		def user
 			self.enrollment.user
 		end
-		
+
 	end
 
 end

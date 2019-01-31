@@ -33,6 +33,7 @@ class DeweyMigration < ActiveRecord::Migration[5.1]
 		create_table :dewey_enrollment_lessons do |t|
 			t.references	:enrollment
 			t.references	:lesson
+			t.datetime		:published_at, default: nil
 			t.datetime		:started_at, default: nil
 			t.datetime		:completed_at, default: nil
 			t.float				:score, default: nil

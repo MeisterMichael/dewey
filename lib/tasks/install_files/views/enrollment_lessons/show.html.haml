@@ -4,7 +4,9 @@
 			%nav{ 'aria-label' => 'breadcrumb' }
 				%ol.breadcrumb
 					%li.breadcrumb-item
-						%a{ href: @lesson.course.url }
+						%a{ href: enrollments_path() } My Courses
+					%li.breadcrumb-item
+						%a{ href: main_app.enrollment_path( @enrollment.id ) }
 							= @lesson.course.title
 					%li.breadcrumb-item.active{ 'aria-current' => 'page' }=@lesson.title
 
@@ -15,3 +17,5 @@
 			%hr
 			.fr-view.mtb-30
 				= raw @lesson.content
+			= form_for @enrollment_lesson, url: complete_enrollment_lesson_path( @enrollment_lesson ) do |f|
+				= f.submit 'Complete', class: 'btn btn-md btn-dark'

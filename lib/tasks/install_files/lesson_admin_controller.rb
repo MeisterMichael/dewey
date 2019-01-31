@@ -51,7 +51,7 @@ class LessonAdminController < ApplicationAdminController
 		end
 
 		def lesson_params
-			params.require(:lesson).permit( :course_id, :title, :avatar, :description, :seq, :status, :duration, :overview, :content )
+			params.require(:lesson).permit( :course_id, :title, :avatar, :description, :seq, :status, :duration_humanize, :overview, :content )
 		end
 
 end

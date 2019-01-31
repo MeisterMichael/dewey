@@ -1,0 +1,43 @@
+.container
+	.row
+		.col-12
+			%nav{ 'aria-label' => 'breadcrumb' }
+				%ol.breadcrumb
+					%li.breadcrumb-item.active{ 'aria-current' => 'page' } My Courses
+
+			%table.table.table-hover
+				%thead.thead-light
+					%th Course
+					%th Started At
+					%th Ends At
+					%th Completed At
+					%th Score
+				%tbody
+					- if @enrollments.blank?
+						%tr
+							%td{ colspan: 5 } \- No Results -
+					- @enrollments.each do |enrollment|
+						%tr
+							%td
+								%a{ href: enrollment_path( enrollment ) }
+									=enrollment.course.title
+							%td
+								- if enrollment.started_at
+									= enrollment.started_at.to_s
+								- else
+									\-
+							%td
+								- if enrollment.ends_at
+									= enrollment.ends_at.to_s
+								- else
+									\-
+							%td
+								- if enrollment.completed_at
+									= enrollment.completed_at.to_s
+								- else
+									\-
+							%td
+								- if enrollment.score.nil?
+									\-
+								- else
+									= enrollment.score

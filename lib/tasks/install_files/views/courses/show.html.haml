@@ -11,3 +11,5 @@
 			%h2 Syllabus
 			.fr-view.mtb-30
 				= raw @course.syllabus
+			.mb-5
+				%a.btn.btn-md.btn-dark{ href: new_enrollment_path( course_id: @course.id ) } Enroll Now!

@@ -15,7 +15,7 @@
 						New Lesson
 		.col-xs-2
 
-	= form_for @lesson, url: lesson_admin_index_path() do |f|
+	= form_for @lesson, url: main_app.lesson_admin_index_path() do |f|
 		= f.hidden_field :course_id
 
 		.row
