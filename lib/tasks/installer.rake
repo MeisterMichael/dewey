@@ -55,14 +55,24 @@ namespace :dewey do
     		prefix += 1
 		end
 
-		puts "Add the following to your config/routes.rb"
-		puts "resources :courses"
-		puts "resources :course_content_admin"
-		puts "resources :enrollment_course_contents do"
-		puts "	put :complete, on: :member"
-		puts "	patch :complete, on: :member"
-		puts "end"
-		puts "resources :enrollments"
+		puts <<-EOS
+Add the following to your config/routes.rb
+
+scope module: 'dewey' do
+	resources :courses
+	resources :course_content_admin
+	resources :enrollment_course_contents do
+		put :complete, on: :member
+		patch :complete, on: :member
+	end
+	resources :enrollments
+end
+
+...
+
+mount Dewey::Engine, :at => '/'
+
+EOS
 
 	end
 

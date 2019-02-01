@@ -26,7 +26,7 @@ module DeweyConcern
 		course = enrollment.course
 		enrollment_course_contents = enrollment.enrollment_course_contents
 
-		previous_course_contents = course.course_contents.where( seq: -Float::INFINITY..(course_content.seq-1) )
+		previous_course_contents = course.course_contents.active.where( seq: -Float::INFINITY..(course_content.seq-1) )
 		previous_enrollment_course_contents = enrollment_course_contents.where( course_content: previous_course_contents ).where.not( completed_at: nil )
 		time = options[:time] || Time.now
 
@@ -37,7 +37,7 @@ module DeweyConcern
 		return false if course.sequential_course_content? && previous_course_contents.count > 0 && previous_course_contents.count > previous_enrollment_course_contents.count
 
 		# not released if time released, and content is released in the future
-		return false if course.time_released_course_content? && ( started_at + course_content.release_offset_interval ) > time
+		return false if course.time_released_course_content? && ( started_at + (course_content.release_offset_interval || 0.seconds) ) > time
 
 		return true
 

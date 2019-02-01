@@ -4,7 +4,7 @@
 			%nav{ 'aria-label' => 'breadcrumb' }
 				%ol.breadcrumb
 					%li.breadcrumb-item
-						%a{ href: courses_path() } Courses
+						%a{ href: main_app.courses_path() } Courses
 					%li.breadcrumb-item
 						%a{ href: @course.url }= @course.title
 					%li.breadcrumb-item.active{ 'aria-current' => 'page' } Enrollment

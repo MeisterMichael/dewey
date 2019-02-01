@@ -4,7 +4,7 @@
 			%nav{ 'aria-label' => 'breadcrumb' }
 				%ol.breadcrumb
 					%li.breadcrumb-item
-						%a{ href: enrollments_path() } My Courses
+						%a{ href: main_app.enrollments_path() } My Courses
 					%li.breadcrumb-item.active{ 'aria-current' => 'page' }= @course.title
 
 			%h1= @course.title
@@ -40,7 +40,7 @@
 								.col
 									Available
 								.col.text-right
-									%a{ href: enrollment_course_contents_path( enrollment_course_content: { enrollment_id: @enrollment.id, course_content_id: course_content.id } ), data: { method: :post } }
+									%a{ href: main_app.enrollment_course_contents_path( enrollment_course_content: { enrollment_id: @enrollment.id, course_content_id: course_content.id } ), data: { method: :post } }
 										Start
 							- else
 								.col
