@@ -71,6 +71,7 @@
 					%thead
 						%th Title
 						%th Sequence
+						%th Release Offset
 						%th Status
 						%th
 					%tbody
@@ -84,6 +85,8 @@
 										= course_content.title
 								%td
 									= course_content.seq
+								%td
+									= course_content.release_offset_humanize
 								%td
 									= course_content.status
 								%td

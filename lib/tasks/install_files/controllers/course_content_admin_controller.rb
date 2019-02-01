@@ -1,12 +1,12 @@
 class CourseContentAdminController < ApplicationAdminController
 		include Dewey::Concerns::CourseContentAdminControllerConcern
 		include DeweyConcern
-		
 		before_action :get_course_content, only: [ :edit, :update ]
 
 		def create
 			@course_content = CourseContent.new()
 			@course_content.attributes = course_content_params
+			@course_content.status = 'active' if @course_content.course.draft?
 
 			authorize( @course_content )
 
@@ -27,6 +27,8 @@ class CourseContentAdminController < ApplicationAdminController
 		def new
 			@course_content = CourseContent.new( course_id: params[:course_id] )
 			@course_content.seq = (@course_content.course.course_contents.active.order(seq: :desc).limit(1).pluck(:seq).first || 0) + 1
+			@course_content.status = 'active' if @course_content.course.draft?
+
 			authorize( @course_content )
 		end
 

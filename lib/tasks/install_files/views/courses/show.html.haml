@@ -12,4 +12,7 @@
 			.fr-view.mtb-30
 				= raw @course.syllabus
 			.mb-5
-				%a.btn.btn-md.btn-dark{ href: new_enrollment_path( course_id: @course.id ) } Enroll Now!
+				- if @enrollment.present?
+					%a.btn.btn-md.btn-dark{ href: enrollment_path( @enrollment ) } Resume Course
+				- else
+					%a.btn.btn-md.btn-dark{ href: new_enrollment_path( course_id: @course.id ) } Enroll Now!

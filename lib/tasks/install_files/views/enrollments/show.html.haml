@@ -12,7 +12,7 @@
 			.fr-view.mtb-30
 				= raw @course.syllabus
 			.mt-5
-				- @course.course_contents.order( seq: :asc ).each do |course_content|
+				- @course.course_contents.active.order( seq: :asc ).each do |course_content|
 					- if ( enrollment_course_content = @enrollment.enrollment_course_contents.where( course_content: course_content ).first ).present?
 						.row
 							.col
@@ -45,7 +45,7 @@
 							- else
 								.col
 									Not Available
-									- if @course.time_released_course_content?
-										for #{ time_ago_in_words @enrollment.started_at + course_content.release_offset_interval }
+									- if @course.time_released_course_content? && ( released_at = @enrollment.started_at + (course_content.release_offset_interval || 0.seconds) ) > Time.now
+										for #{ time_ago_in_words released_at }
 								.col.text-right
 									\-

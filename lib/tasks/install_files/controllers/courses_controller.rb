@@ -10,6 +10,7 @@ class CoursesController < ApplicationController
 
 		def show
 			@course = Dewey::Course.published.friendly.find( params[:id] )
+			@enrollment = current_user.enrollments.where( course_cohort: Dewey::CourseCohort.where( course: @course ) ).last if current_user.present?
 
 			authorize( @course )
 

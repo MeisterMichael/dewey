@@ -27,10 +27,13 @@
 					= f.label :seq, "Sequence"
 					= f.number_field :seq, class: 'form-control', step: 1
 
+				.form-group
+					= f.label :release_offset_humanize, "Release (offset from course start)"
+					= f.text_field :release_offset_humanize, class: 'form-control', placeholder: 'unlimited'
 
 				.form-group
-					= f.label :description, 'Summary'
-					= f.text_area :description, class: 'form-control wysiwyg', data: { wysiwyg: { height_min: 100, toolbar_sticky: false, toolbar_preset: 'admin_default', object_class: @course_content.class.base_class.name, object_id: @course_content.id }.to_json }
+					= f.label :status
+					= f.collection_select :status, Dewey::Course.statuses, :first, :first, {}, class: 'form-control'
 
 				.form-group
 					= f.submit 'Create', class: 'btn btn-primary'
