@@ -12,11 +12,5 @@
 			%h1
 				Enrollment
 				%small= @course.title
-			- if @course_cohort.blank?
-				%h2 Not available
-			- elsif current_user.present?
-				= form_for @enrollment, html: { class: 'form' } do |f|
-					= f.hidden_field :course_cohort_id
-					= f.submit 'Enroll', class: 'btn btn-md btn-dark'
-			- else
-				%h2 Login to continue
+			.mb-3
+				= render 'dewey/enrollments/enroll_button', course_cohort: @enrollment.course_cohort, args: {}

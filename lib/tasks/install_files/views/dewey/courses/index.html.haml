@@ -7,12 +7,8 @@
 			.col - No Courses -
 	- @courses.each do |course|
 		.row
-			.col-12.col-md-4
-				%a{ href: course.url }
-					- if course.avatar.present?
-						%img.img-flex{ src: course.avatar }
-					%h4= course.title
-					%p= raw course.description
+			.col-12.col-md-4.mb-3
+				= render 'card', course: course, args: {}
 	.row
 		.col
 			= raw paginate @courses

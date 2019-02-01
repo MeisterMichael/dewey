@@ -11,10 +11,11 @@
 					%li.breadcrumb-item.active{ 'aria-current' => 'page' }=@course_content.title
 
 			%h1= @course_content.title
-			%h2 Overview
-			.fr-view.mtb-30
-				= raw @course_content.overview
-			%hr
+			- if @course_content.overview.present?
+				%h3 Overview
+				.fr-view.mtb-30
+					= raw @course_content.overview
+				%hr
 			.fr-view.mtb-30
 				= raw @course_content.content
 			= form_for @enrollment_course_content, url: main_app.complete_dewey_enrollment_course_content_path( @enrollment_course_content ) do |f|

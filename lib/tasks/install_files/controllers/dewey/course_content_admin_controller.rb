@@ -40,7 +40,7 @@ module Dewey
 
 				if @course_content.save
 					set_flash 'Course Content Updated'
-					redirect_to Dewey::Engine.routes.url_helpers.edit_dewey_course_admin_path( id: @course_content.course.id )
+					redirect_to Rails.application.routes.url_helpers.edit_dewey_course_admin_path( @course_content.course.id )
 				else
 					set_flash 'Course Content could not be Updated', :error, @course_content
 					render :edit

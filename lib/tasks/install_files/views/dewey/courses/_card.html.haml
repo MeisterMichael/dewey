@@ -1,0 +1,10 @@
+
+%a.card{ href: course.url }
+	- if course.avatar
+		%img.card-img-top{ src: course.avatar }
+	.card-body
+		%h4.card-title
+			= course.title
+		%p.card-text
+			= raw course.short_description
+		.btn.btn-primary.btn-md View

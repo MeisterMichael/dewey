@@ -1,3 +1,5 @@
+- if @course.cover_attachment.attached?
+	%img.pb-3{ src: @course.cover_attachment.service_url }
 .container
 	.row
 		.col-12
@@ -8,44 +10,55 @@
 					%li.breadcrumb-item.active{ 'aria-current' => 'page' }= @course.title
 
 			%h1= @course.title
-			%h2 Syllabus
+			- if @course.introduction.present?
+				.fr-view.mtb-30
+					%h3 Introduction
+					= raw @course.introduction
+				%hr
 			.fr-view.mtb-30
-				= raw @course.syllabus
-			.mt-5
-				- @course.course_contents.active.order( seq: :asc ).each do |course_content|
-					- if ( enrollment_course_content = @enrollment.enrollment_course_contents.where( course_content: course_content ).first ).present?
-						.row
-							.col
-								%a{ href: main_app.dewey_enrollment_course_content_path(enrollment_course_content) }= enrollment_course_content.course_content.title
-							.col
-								- if enrollment_course_content.completed_at.present?
-									Complete
-								- elsif enrollment_course_content.started_at.present?
-									Started
-								- else
-									New
-							.col.text-right
-								%a{ href: main_app.dewey_enrollment_course_content_path(enrollment_course_content) }
-									- if enrollment_course_content.completed_at.present?
-										View
-									- elsif enrollment_course_content.started_at.present?
-										Resume
-									- else
-										Start
-					- else
-						.row
-							.col
-								= course_content.title
-							- if course_content_released?( @enrollment, course_content )
-								.col
-									Available
-								.col.text-right
-									%a{ href: main_app.dewey_enrollment_course_contents_path( enrollment_course_content: { enrollment_id: @enrollment.id, course_content_id: course_content.id } ), data: { method: :post } }
-										Start
+				= raw @course.content
+			.mt-5.mb-5
+				%table.table.table-hover.table-borderless.table-sm
+					%thead
+						%tr
+							%th Title
+							%th Status
+							%th &nbsp;
+					%tbody
+						- @course.course_contents.active.order( seq: :asc ).each do |course_content|
+							- if ( enrollment_course_content = @enrollment.enrollment_course_contents.where( course_content: course_content ).first ).present?
+								%tr
+									%td
+										%a{ href: main_app.dewey_enrollment_course_content_path(enrollment_course_content) }= enrollment_course_content.course_content.title
+									%td
+										- if enrollment_course_content.completed_at.present?
+											Complete
+										- elsif enrollment_course_content.started_at.present?
+											Started
+										- else
+											New
+									%td.text-right
+										%a{ href: main_app.dewey_enrollment_course_content_path(enrollment_course_content) }
+											- if enrollment_course_content.completed_at.present?
+												View
+											- elsif enrollment_course_content.started_at.present?
+												Resume
+											- else
+												Start
 							- else
-								.col
-									Not Available
-									- if @course.time_released_course_content? && ( released_at = @enrollment.started_at + (course_content.release_offset_interval || 0.seconds) ) > Time.now
-										for #{ time_ago_in_words released_at }
-								.col.text-right
-									\-
+								%tr
+									%td
+										= course_content.title
+									- if course_content_released?( @enrollment, course_content )
+										%td
+											Available
+										%td.text-right
+											%a{ href: main_app.dewey_enrollment_course_contents_path( enrollment_course_content: { enrollment_id: @enrollment.id, course_content_id: course_content.id } ), data: { method: :post } }
+												Start
+									- else
+										%td
+											Not Available
+											- if @course.time_released_course_content? && ( released_at = @enrollment.started_at + (course_content.release_offset_interval || 0.seconds) ) > Time.now
+												for #{ time_ago_in_words released_at }
+										%td.text-right
+											\-

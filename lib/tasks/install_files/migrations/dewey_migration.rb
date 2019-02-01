@@ -6,6 +6,9 @@ class DeweyMigration < ActiveRecord::Migration[5.1]
 			t.string			:title
 			t.string			:avatar
 			t.text				:description
+			t.text				:short_description
+			t.text				:introduction
+			t.text				:content
 			t.text				:syllabus
 			t.string			:slug
 			t.datetime		:publish_at, default: nil
@@ -20,6 +23,23 @@ class DeweyMigration < ActiveRecord::Migration[5.1]
 			t.references	:instructor, default: nil
 			t.timestamps
 		end
+
+		create_table :dewey_course_contents do |t|
+			t.references	:course
+			t.string			:title
+			t.string			:avatar
+			t.text				:description
+			t.integer 		:seq, default: 0
+			t.integer 		:status, default: 0
+			t.interval		:duration, default: nil
+			t.interval		:release_offset, default: nil
+			t.text				:overview
+			t.text				:content
+			t.timestamps
+		end
+
+
+
 
 		create_table :dewey_course_cohorts do |t|
 			t.references	:course
@@ -48,20 +68,6 @@ class DeweyMigration < ActiveRecord::Migration[5.1]
 			t.datetime		:ends_at, default: nil
 			t.datetime		:completed_at, default: nil
 			t.float				:score, default: nil
-			t.timestamps
-		end
-
-		create_table :dewey_course_contents do |t|
-			t.references	:course
-			t.string			:title
-			t.string			:avatar
-			t.text				:description
-			t.integer 		:seq, default: 0
-			t.integer 		:status, default: 0
-			t.interval		:duration, default: nil
-			t.interval		:release_offset, default: nil
-			t.text				:overview
-			t.text				:content
 			t.timestamps
 		end
 

@@ -107,7 +107,7 @@ module Dewey
 
 			protected
 				def course_params
-					params.require( :course ).permit( :title, :description, :syllabus, :slug_pref, :publish_at, :max_cohort_size, :status, :availability, :course_type, :course_content_schedule, :course_content_flow, :start_schedule, :instructor_id, :duration_humanize, :avatar_attachment, :cover_attachment, { embedded_attachments: [], other_attachments: [] } )
+					params.require( :course ).permit( :title, :description, :short_description, :introduction, :content, :syllabus, :slug_pref, :publish_at, :max_cohort_size, :status, :availability, :course_type, :course_content_schedule, :course_content_flow, :start_schedule, :instructor_id, :duration_humanize, :avatar_attachment, :cover_attachment, { embedded_attachments: [], other_attachments: [] } )
 				end
 
 				def get_course

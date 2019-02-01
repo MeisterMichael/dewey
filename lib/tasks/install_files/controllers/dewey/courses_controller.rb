@@ -12,6 +12,7 @@ module Dewey
 
 			def show
 				@course = Dewey::Course.published.friendly.find( params[:id] )
+				@course_cohorts = @course.course_cohorts.open_for_enrollment.order( id: :desc )
 				@enrollment = current_user.enrollments.where( course_cohort: Dewey::CourseCohort.where( course: @course ) ).last if current_user.present?
 
 				authorize( @course )

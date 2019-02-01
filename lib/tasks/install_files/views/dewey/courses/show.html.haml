@@ -1,3 +1,5 @@
+- if @course.cover_attachment.attached?
+	%img.pb-3{ src: @course.cover_attachment.service_url }
 .container
 	.row
 		.col-12
@@ -8,11 +10,11 @@
 					%li.breadcrumb-item.active{ 'aria-current' => 'page' }= @course.title
 
 			%h1= @course.title
-			%h2 Syllabus
 			.fr-view.mtb-30
-				= raw @course.syllabus
+				= raw @course.description
 			.mb-5
-				- if @enrollment.present?
-					%a.btn.btn-md.btn-dark{ href: main_app.dewey_enrollment_path( @enrollment ) } Resume Course
+				- if not( @course_cohorts.present? )
+					%strong Currently Not Enrolling
 				- else
-					%a.btn.btn-md.btn-dark{ href: main_app.new_dewey_enrollment_path( course_id: @course.id ) } Enroll Now!
+					- @course_cohorts.each do |course_cohort|
+						= render 'dewey/enrollments/enroll_button', course_cohort: course_cohort, args: {}

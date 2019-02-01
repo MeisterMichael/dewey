@@ -123,7 +123,7 @@ module Dewey
 
 			def set_avatar
 				self.avatar = self.avatar_attachment.service_url if self.avatar_attachment.attached?
-				self.cover_image = self.cover_attachment.service_url if self.cover_attachment.attached?
+				# self.cover_image = self.cover_attachment.service_url if self.cover_attachment.attached?
 			end
 
 			def slugger
