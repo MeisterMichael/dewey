@@ -98,12 +98,12 @@ module Dewey
 				hours = interval.to_f / 3600;
 				minutes = (interval.to_f % 3600) / 60;
 				seconds = interval.to_f % 60;
-				self.duration = "#{hours.to_i}:#{minutes.to_i}:#{seconds}";
+				self.release_offset = "#{hours.to_i}:#{minutes.to_i}:#{seconds}";
 			end
 
 			def release_offset_interval
-				return nil if self.duration.nil?
-				parts = self.duration.split(':')
+				return nil if self.release_offset.nil?
+				parts = self.release_offset.split(':')
 				parts.first.to_f.hours + parts.second.to_f.minutes + parts.third.to_f.seconds
 			end
 

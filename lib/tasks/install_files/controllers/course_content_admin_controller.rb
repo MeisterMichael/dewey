@@ -1,7 +1,7 @@
 class CourseContentAdminController < ApplicationAdminController
 		include Dewey::Concerns::CourseContentAdminControllerConcern
 		include DeweyConcern
-		include Dewey::Engine.routes.url_helpers
+		
 		before_action :get_course_content, only: [ :edit, :update ]
 
 		def create
@@ -11,8 +11,8 @@ class CourseContentAdminController < ApplicationAdminController
 			authorize( @course_content )
 
 			if @course_content.save
-				set_flash 'CourseContent Created'
-				redirect_to edit_course_admin_path( id: @course_content.course.id )
+				set_flash 'Course Content Created'
+				redirect_to edit_course_content_admin_path( id: @course_content.id )
 			else
 				set_flash 'CourseContent could not be created', :error, @course_content
 				render :new
@@ -37,7 +37,7 @@ class CourseContentAdminController < ApplicationAdminController
 
 			if @course_content.save
 				set_flash 'CourseContent Updated'
-				redirect_to edit_course_admin_path( id: @course_content.course.id )
+				redirect_to Dewey::Engine.routes.url_helpers.edit_course_admin_path( id: @course_content.course.id )
 			else
 				set_flash 'CourseContent could not be Updated', :error, @course_content
 				render :edit

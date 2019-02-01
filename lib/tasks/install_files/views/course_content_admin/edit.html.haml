@@ -9,7 +9,7 @@
 				%li
 					= link_to 'Course Admin', dewey.course_admin_index_path
 				%li
-					= link_to @course_content.course.title, dewey.course_admin_path( @course_content.course )
+					= link_to @course_content.course.title, dewey.edit_course_admin_path( @course_content.course )
 				%li
 					%strong
 						Edit
