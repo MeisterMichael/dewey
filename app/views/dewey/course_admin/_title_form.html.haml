@@ -1,0 +1,13 @@
+
+.form-group
+	= f.text_field :title, class: 'form-control input-lg'
+
+.form-group
+	= f.label :slug_pref, 'URL for this course:'
+	.input-group
+		%span.input-group-addon
+			= Pulitzer.app_host + @course.class.mounted_path
+		= f.text_field :slug_pref, class: 'form-control', placeholder: @course.slug
+		%span.input-group-btn
+			%a.btn.btn-default{ 'data-clipboard-text' => @course.url }
+				%i.fa.fa-clipboard

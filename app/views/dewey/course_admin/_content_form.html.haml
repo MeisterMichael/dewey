@@ -1,0 +1,29 @@
+
+.row
+	.col-xs-4
+
+		.form-group
+			= f.label :avatar_attachment, "Avatar Image"
+			= f.file_field :avatar_attachment
+			- if @course.avatar
+				= image_tag @course.avatar, class: 'img-responsive'
+				%a.btn.btn-default{ 'data-clipboard-text' => @course.avatar }
+					%i.fa.fa-clipboard
+
+	.col-xs-4
+
+		.form-group
+			= f.label :cover_attachment, "Cover Image"
+			= f.file_field :cover_attachment
+			- if @course.cover_attachment.attached?
+				= image_tag @course.cover_attachment.service_url, class: 'img-responsive'
+				%a.btn.btn-default{ 'data-clipboard-text' => @course.cover_attachment.service_url }
+					%i.fa.fa-clipboard
+
+.form-group
+	= f.label :description, 'Summary'
+	= f.text_area :description, class: 'form-control wysiwyg', data: { wysiwyg: { height_min: 100, toolbar_sticky: false, toolbar_preset: 'admin_default', object_class: @course.class.base_class.name, object_id: @course.id }.to_json }
+
+.form-group
+	= f.label :syllabus
+	= f.text_area :syllabus, class: 'form-control wysiwyg', data: { wysiwyg: { height_min: 200, toolbar_sticky: true, toolbar_preset: 'admin_default', object_class: @course.class.base_class.name, object_id: @course.id }.to_json }

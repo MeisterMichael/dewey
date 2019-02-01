@@ -1,6 +1,6 @@
 module Dewey
 	class EnrollmentCourseContent < ApplicationRecord
-		belongs_to :course_content, class_name: 'CourseContent'
+		belongs_to :course_content, class_name: 'Dewey::CourseContent'
 		belongs_to :enrollment
 
 

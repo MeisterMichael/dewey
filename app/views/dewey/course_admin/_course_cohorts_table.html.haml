@@ -1,0 +1,45 @@
+
+- if authorized?( Dewey::CourseCohort, controller: Dewey::CourseCohortAdminController, action: :create )
+	%a.pull-right.btn.btn-success{ data: { toggle: :modal, target: '#new_course_cohort' } }
+		%i.fa.fa-plus-square
+		New
+
+%h4 Course Cohorts
+%table.table.table-striped.table-hover{ style: 'margin-top: 1em' }
+	%thead
+		%th Starts At
+		%th Ends At
+		%th Enrollment
+		%th Instructor
+		%th
+	%tbody
+		- if @course_cohorts.blank?
+			%tr
+				%td{ colspan: 5 } - No Cohorts -
+		- @course_cohorts.each do |course_cohort|
+			%tr
+				%td
+					= current_user.to_local_tz( course_cohort.starts_at ).to_s( :slashed_time )
+				%td
+					- if course_cohort.ends_at
+						= current_user.to_local_tz( course_cohort.ends_at ).to_s( :slashed_time )
+					- else
+						\-
+				%td=course_cohort.enrollments.count
+				%td
+					= course_cohort.instructor
+				%td
+					.btn-group
+						%button.btn.btn-mini.btn-default.dropdown-toggle{ data: { toggle: :dropdown } }
+							%i.fa.fa-cog
+							%b.caret
+						%ul.dropdown-menu
+							%li
+								%a{ href: edit_course_cohort_admin_path( course_cohort.id ) }
+									%i.fa.fa-pencil
+									Edit
+							%li.divider
+							%li
+								%a{ href: course_cohort_admin_path( course_cohort ), data: { method: 'delete', confirm: 'Are you sure?' } }
+									%i.fa.fa-trash-o
+									Delete!

@@ -1,0 +1,38 @@
+
+
+.container-fluid
+	.row
+		.col-xs-10
+			%ul.breadcrumb
+				%li
+					= link_to 'Admin', main_app.admin_index_path
+				%li
+					= link_to 'Course Admin', main_app.dewey_course_admin_index_path
+				%li
+					%strong
+						Edit
+						= @course.title
+		.col-xs-2
+			%a.btn.btn-primary{ href: main_app.preview_dewey_course_admin_path( @course.id ), target: '_new' }
+				%i.fa.fa-eye
+				Preview
+
+	= form_for @course, url: main_app.dewey_course_admin_path( @course ) do |f|
+
+		.row
+			.col-xs-8
+
+				= render 'dewey/course_admin/title_form', f: f, args: {}
+				= render 'dewey/course_admin/content_form', f: f, args: {}
+
+				= render 'dewey/course_admin/course_contents_table'
+
+				= render 'dewey/course_admin/course_cohorts_table'
+
+			.col-xs-4
+				.well
+					= render 'dewey/course_admin/config_form', f: f, args: {}
+					.form-group
+						= f.submit 'Update', class: 'btn btn-primary'
+
+= render 'dewey/course_cohort_admin/new_modal', course: @course, args: {}

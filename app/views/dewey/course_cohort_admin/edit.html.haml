@@ -7,7 +7,7 @@
 				%li
 					= link_to 'Admin', main_app.admin_index_path
 				%li
-					= link_to @course_cohort.course.title, edit_course_admin_path( @course_cohort.course )
+					= link_to @course_cohort.course.title, main_app.edit_dewey_course_admin_path( @course_cohort.course )
 				%li
 					%strong
 						Edit
