@@ -1,5 +1,6 @@
 class CoursesController < ApplicationController
 		include Dewey::Concerns::CourseControllerConcern
+		include DeweyConcern
 
 		def index
 			@courses = Dewey::Course.published
@@ -13,7 +14,7 @@ class CoursesController < ApplicationController
 			authorize( @course )
 
 			set_page_meta( @course.page_meta )
-			# render @lesson.template, layout: @lesson.layout
+			# render @course_content.template, layout: @course_content.layout
 		end
 
 		protected

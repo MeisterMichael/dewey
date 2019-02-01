@@ -5,10 +5,10 @@ namespace :dewey do
 
 		files = {
 			'course_controller.rb' => 'app/controllers',
-			'lesson.rb' => 'app/models',
-			'lesson_controller.rb' => 'app/controllers',
-			'views/lesson_admin' => 'app/views',
-			'views/lessons' => 'app/views',
+			'course_content.rb' => 'app/models',
+			'course_content_controller.rb' => 'app/controllers',
+			'views/course_content_admin' => 'app/views',
+			'views/course_contents' => 'app/views',
 			'views/courses' => 'app/views',
 		}
 
@@ -57,7 +57,8 @@ namespace :dewey do
 
 		puts "Add the following to your config/routes.rb"
 		puts "resources :courses"
-		puts "resources :enrollment_lessons do"
+		puts "resources :course_content_admin"
+		puts "resources :enrollment_course_contents do"
 		puts "	put :complete, on: :member"
 		puts "	patch :complete, on: :member"
 		puts "end"

@@ -1,5 +1,7 @@
 class EnrollmentsController < ApplicationController
 		# include Dewey::Concerns::EnrollmentControllerConcern
+		include DeweyConcern
+
 		before_action :authenticate_user!, except: :new
 
 		def create
@@ -9,11 +11,6 @@ class EnrollmentsController < ApplicationController
 			authorize( @enrollment )
 
 			if @enrollment.save
-
-				@enrollment.course.lessons.each do |lesson|
-					@enrollment.enrollment_lessons.create( lesson: lesson, published_at: @enrollment.published_at_for( lesson ) )
-				end
-
 				set_flash "Congratulations you are enrolled!", :success
 				redirect_to enrollment_path( @enrollment )
 			else

@@ -9,13 +9,13 @@
 				%li
 					= link_to 'Course Admin', dewey.course_admin_index_path
 				%li
-					= link_to @lesson.course.title, dewey.course_admin_path( @lesson.course )
+					= link_to @course_content.course.title, dewey.course_admin_path( @course_content.course )
 				%li
 					%strong
-						New Lesson
+						New Content
 		.col-xs-2
 
-	= form_for @lesson, url: main_app.lesson_admin_index_path() do |f|
+	= form_for @course_content, url: main_app.course_content_admin_index_path() do |f|
 		= f.hidden_field :course_id
 
 		.row
@@ -30,7 +30,7 @@
 
 				.form-group
 					= f.label :description, 'Summary'
-					= f.text_area :description, class: 'form-control wysiwyg', data: { wysiwyg: { height_min: 100, toolbar_sticky: false, toolbar_preset: 'admin_default', object_class: @lesson.class.base_class.name, object_id: @lesson.id }.to_json }
+					= f.text_area :description, class: 'form-control wysiwyg', data: { wysiwyg: { height_min: 100, toolbar_sticky: false, toolbar_preset: 'admin_default', object_class: @course_content.class.base_class.name, object_id: @course_content.id }.to_json }
 
 				.form-group
 					= f.submit 'Create', class: 'btn btn-primary'

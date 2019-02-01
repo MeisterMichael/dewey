@@ -2,21 +2,12 @@ module Dewey
 	class Enrollment < ApplicationRecord
 		belongs_to :user, class_name: 'User'
 		belongs_to :course_cohort
-		has_many :enrollment_lessons
+		has_many :enrollment_course_contents
 
 		before_create :set_started_at
 
 		def course
 			self.course_cohort.course
-		end
-
-		def published_at_for( lesson, args = {} )
-			date = self.started_at
-			if self.course.time_released_lessons?
-				date = date + self.course.lessons.active.where( seq: -Float::INFINITY..lesson.seq ).order( seq: :asc ).to_a.sum{ |lesson| lesson.duration || 0.seconds }
-			end
-
-			date
 		end
 
 		protected

@@ -63,8 +63,8 @@
 					= f.label :syllabus
 					= f.text_area :syllabus, class: 'form-control wysiwyg', data: { wysiwyg: { height_min: 200, toolbar_sticky: true, toolbar_preset: 'admin_default', object_class: @course.class.base_class.name, object_id: @course.id }.to_json }
 
-				- if authorized?( ::Lesson, controller: ::LessonAdminController, action: :create )
-					%a.btn.btn-success{ href: main_app.new_lesson_admin_path( course_id: @course.id ) }
+				- if authorized?( ::CourseContent, controller: ::CourseContentAdminController, action: :create )
+					%a.btn.btn-success{ href: main_app.new_course_content_admin_path( course_id: @course.id ) }
 						%i.fa.fa-plus-square
 						New
 				%table.table.table-striped.table-hover{ style: 'margin-top: 1em' }
@@ -74,18 +74,18 @@
 						%th Status
 						%th
 					%tbody
-						- if @lessons.blank?
+						- if @course_contents.blank?
 							%tr
-								%td{ colspan: 4 } - No Lessons -
-						- @lessons.each do |lesson|
+								%td{ colspan: 4 } - No CourseContents -
+						- @course_contents.each do |course_content|
 							%tr
 								%td
-									%a{ href: main_app.edit_lesson_admin_path( lesson.id ) }
-										= lesson.title
+									%a{ href: main_app.edit_course_content_admin_path( course_content.id ) }
+										= course_content.title
 								%td
-									= lesson.seq
+									= course_content.seq
 								%td
-									= lesson.status
+									= course_content.status
 								%td
 									.btn-group
 										%button.btn.btn-mini.btn-default.dropdown-toggle{ data: { toggle: :dropdown } }
@@ -93,7 +93,7 @@
 											%b.caret
 										%ul.dropdown-menu
 											%li
-												%a{ href: main_app.edit_lesson_admin_path( lesson.id ) }
+												%a{ href: main_app.edit_course_content_admin_path( course_content.id ) }
 													%i.fa.fa-pencil
 													Edit
 
@@ -174,8 +174,12 @@
 						= f.collection_select :course_type, Dewey::Course.course_types, :first, :first, {}, class: 'form-control'
 
 					.form-group
-						= f.label :lesson_schedule
-						= f.collection_select :lesson_schedule, Dewey::Course.lesson_schedules, :first, :first, {}, class: 'form-control'
+						= f.label :course_content_schedule
+						= f.collection_select :course_content_schedule, Dewey::Course.course_content_schedules, :first, :first, {}, class: 'form-control'
+
+					.form-group
+						= f.label :course_content_flow
+						= f.collection_select :course_content_flow, Dewey::Course.course_content_flows, :first, :first, {}, class: 'form-control'
 
 					.form-group
 						= f.label :start_schedule

@@ -13,12 +13,13 @@ module Dewey
 		has_many :course_cohorts
 		has_many :enrollments, through: :course_cohorts
 		has_many :users, through: :enrollments
-		has_many :lessons, class_name: 'Lesson'
+		has_many :course_contents, class_name: 'CourseContent'
 
 		enum status: { 'trash' => -100, 'not_available' => -50, 'wait_listed' => -1, 'draft' => 0, 'active' => 1 }
 		enum availability: { 'anyone' => 1, 'enrolled' => 2, 'invite_only' => 3 }
 		enum course_type: { 'physical' => 1, 'digital' => 2 }
-		enum lesson_schedule: { 'binged_lessons' => 1, 'time_released_lessons' => 2 }
+		enum course_content_schedule: { 'binged_course_content' => 1, 'time_released_course_content' => 2 }
+		enum course_content_flow: { 'sequential_course_content' => 1, 'non_sequential_course_content' => 2 }
 		enum start_schedule: { 'on_demand_start' => 1, 'scheduled_start' => 2 }
 
 		include FriendlyId

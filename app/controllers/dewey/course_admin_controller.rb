@@ -29,7 +29,7 @@ module Dewey
 		def edit
 			authorize( @course )
 			@course_cohorts = @course.course_cohorts.order(id: :desc).page(params[:page]).per(20)
-			@lessons = @course.lessons.order(seq: :asc, id: :asc).page(params[:page]).per(20)
+			@course_contents = @course.course_contents.order(seq: :asc, id: :asc).page(params[:page]).per(20)
 		end
 
 
@@ -87,7 +87,7 @@ module Dewey
 
 		private
 			def course_params
-				params.require( :course ).permit( :title, :description, :syllabus, :slug_pref, :publish_at, :max_cohort_size, :status, :availability, :course_type, :lesson_schedule, :start_schedule, :instructor_id, :duration_humanize, :avatar_attachment, :cover_attachment, { embedded_attachments: [], other_attachments: [] } )
+				params.require( :course ).permit( :title, :description, :syllabus, :slug_pref, :publish_at, :max_cohort_size, :status, :availability, :course_type, :course_content_schedule, :course_content_flow, :start_schedule, :instructor_id, :duration_humanize, :avatar_attachment, :cover_attachment, { embedded_attachments: [], other_attachments: [] } )
 			end
 
 			def get_course

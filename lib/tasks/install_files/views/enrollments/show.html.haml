@@ -12,36 +12,40 @@
 			.fr-view.mtb-30
 				= raw @course.syllabus
 			.mt-5
-				- @enrollment.enrollment_lessons.joins(:lesson).includes(:lesson).order( 'lessons.seq asc' ).each do |enrollment_lesson|
-					- if not( enrollment_lesson.published? )
+				- @course.course_contents.order( seq: :asc ).each do |course_content|
+					- if ( enrollment_course_content = @enrollment.enrollment_course_contents.where( course_content: course_content ).first ).present?
 						.row
 							.col
-								= enrollment_lesson.lesson.title
+								%a{ href: main_app.enrollment_course_content_path(enrollment_course_content) }= enrollment_course_content.course_content.title
 							.col
-								\-
+								- if enrollment_course_content.completed_at.present?
+									Complete
+								- elsif enrollment_course_content.started_at.present?
+									Started
+								- else
+									New
 							.col.text-right
-								\-
-					- elsif enrollment_lesson.completed_at.present?
-						.row
-							.col
-								%a{ href: main_app.enrollment_lesson_path(enrollment_lesson) }= enrollment_lesson.lesson.title
-							.col
-								Complete
-							.col.text-right
-								%a{ href: main_app.enrollment_lesson_path(enrollment_lesson) } View
-					- elsif enrollment_lesson.started_at.present?
-						.row
-							.col
-								%a{ href: main_app.enrollment_lesson_path(enrollment_lesson) }= enrollment_lesson.lesson.title
-							.col
-								Started
-							.col.text-right
-								%a{ href: main_app.enrollment_lesson_path(enrollment_lesson) } Resume
+								%a{ href: main_app.enrollment_course_content_path(enrollment_course_content) }
+									- if enrollment_course_content.completed_at.present?
+										View
+									- elsif enrollment_course_content.started_at.present?
+										Resume
+									- else
+										Start
 					- else
 						.row
 							.col
-								%a{ href: main_app.enrollment_lesson_path(enrollment_lesson) }= enrollment_lesson.lesson.title
-							.col
-								New
-							.col.text-right
-								%a{ href: main_app.enrollment_lesson_path(enrollment_lesson) } Start
+								= course_content.title
+							- if course_content_released?( @enrollment, course_content )
+								.col
+									Available
+								.col.text-right
+									%a{ href: enrollment_course_contents_path( enrollment_course_content: { enrollment_id: @enrollment.id, course_content_id: course_content.id } ), data: { method: :post } }
+										Start
+							- else
+								.col
+									Not Available
+									- if @course.time_released_course_content?
+										for #{ time_ago_in_words @enrollment.started_at + course_content.release_offset_interval }
+								.col.text-right
+									\-
