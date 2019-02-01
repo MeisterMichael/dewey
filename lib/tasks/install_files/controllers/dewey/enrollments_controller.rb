@@ -13,7 +13,7 @@ module Dewey
 
 				if @enrollment.save
 					set_flash "Congratulations you are enrolled!", :success
-					redirect_to Rails.application.routes.url_helpers.enrollment_path( @enrollment )
+					redirect_to Rails.application.routes.url_helpers.dewey_enrollment_path( @enrollment )
 				else
 					set_flash "There was an error while attempting to enroll you.", :error, @enrollment
 					redirect_back fallback_location: '/'

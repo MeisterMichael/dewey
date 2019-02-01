@@ -4,7 +4,7 @@
 			%nav{ 'aria-label' => 'breadcrumb' }
 				%ol.breadcrumb
 					%li.breadcrumb-item
-						%a{ href: main_app.courses_path() } Courses
+						%a{ href: main_app.dewey_courses_path() } Courses
 					%li.breadcrumb-item.active{ 'aria-current' => 'page' }= @course.title
 
 			%h1= @course.title
@@ -13,6 +13,6 @@
 				= raw @course.syllabus
 			.mb-5
 				- if @enrollment.present?
-					%a.btn.btn-md.btn-dark{ href: main_app.enrollment_path( @enrollment ) } Resume Course
+					%a.btn.btn-md.btn-dark{ href: main_app.dewey_enrollment_path( @enrollment ) } Resume Course
 				- else
-					%a.btn.btn-md.btn-dark{ href: main_app.new_enrollment_path( course_id: @course.id ) } Enroll Now!
+					%a.btn.btn-md.btn-dark{ href: main_app.new_dewey_enrollment_path( course_id: @course.id ) } Enroll Now!

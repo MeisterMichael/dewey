@@ -7,16 +7,16 @@
 				%li
 					= link_to 'Admin', main_app.admin_index_path
 				%li
-					= link_to 'Course Admin', dewey.course_admin_index_path
+					= link_to 'Course Admin', main_app.dewey_course_admin_index_path
 				%li
-					= link_to @course_content.course.title, main_app.edit_dewey_course_admin_path( @course_content.course )
+					= link_to @course_content.course.title, main_app.edit_dewey_course_content_admin_path( @course_content.course )
 				%li
 					%strong
 						Edit
 						= @course_content.title
 		.col-xs-2
 
-	= form_for @course_content, url: main_app.course_content_admin_path( @course_content.id ) do |f|
+	= form_for @course_content, url: main_app.dewey_course_content_admin_path( @course_content.id ) do |f|
 
 		.row
 			.col-xs-8

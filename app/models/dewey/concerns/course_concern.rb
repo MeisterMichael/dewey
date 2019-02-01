@@ -40,6 +40,10 @@ module Dewey
 			module ClassMethods
 
 
+				def published( args = {} )
+					where( "dewey_courses.publish_at <= :now", now: Time.zone.now ).active
+				end
+
 
 			end
 
@@ -111,10 +115,6 @@ module Dewey
 					}
 
 				}
-			end
-
-			def self.published( args = {} )
-				where( "dewey_courses.publish_at <= :now", now: Time.zone.now ).active
 			end
 
 			def published?

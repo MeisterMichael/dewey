@@ -4,7 +4,7 @@
 			%nav{ 'aria-label' => 'breadcrumb' }
 				%ol.breadcrumb
 					%li.breadcrumb-item
-						%a{ href: main_app.enrollments_path() } My Courses
+						%a{ href: main_app.dewey_enrollments_path() } My Courses
 					%li.breadcrumb-item.active{ 'aria-current' => 'page' }= @course.title
 
 			%h1= @course.title
@@ -16,7 +16,7 @@
 					- if ( enrollment_course_content = @enrollment.enrollment_course_contents.where( course_content: course_content ).first ).present?
 						.row
 							.col
-								%a{ href: main_app.enrollment_course_content_path(enrollment_course_content) }= enrollment_course_content.course_content.title
+								%a{ href: main_app.dewey_enrollment_course_content_path(enrollment_course_content) }= enrollment_course_content.course_content.title
 							.col
 								- if enrollment_course_content.completed_at.present?
 									Complete
@@ -25,7 +25,7 @@
 								- else
 									New
 							.col.text-right
-								%a{ href: main_app.enrollment_course_content_path(enrollment_course_content) }
+								%a{ href: main_app.dewey_enrollment_course_content_path(enrollment_course_content) }
 									- if enrollment_course_content.completed_at.present?
 										View
 									- elsif enrollment_course_content.started_at.present?
@@ -40,7 +40,7 @@
 								.col
 									Available
 								.col.text-right
-									%a{ href: main_app.enrollment_course_contents_path( enrollment_course_content: { enrollment_id: @enrollment.id, course_content_id: course_content.id } ), data: { method: :post } }
+									%a{ href: main_app.dewey_enrollment_course_contents_path( enrollment_course_content: { enrollment_id: @enrollment.id, course_content_id: course_content.id } ), data: { method: :post } }
 										Start
 							- else
 								.col

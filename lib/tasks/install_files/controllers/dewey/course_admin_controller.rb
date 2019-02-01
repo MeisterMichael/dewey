@@ -1,5 +1,6 @@
 module Dewey
 	class CourseAdminController < ApplicationAdminController
+		include DeweyConcern
 		include Dewey::Concerns::CourseAdminControllerConcern
 		before_action :get_course, except: [ :create, :empty_trash, :index ]
 
@@ -11,7 +12,7 @@ module Dewey
 		#
 		#	if @course.save
 		#		set_flash 'Course Created'
-		#		redirect_to main_app.edit_dewey_course_admin_path( @course )
+		#		redirect_to edit_course_admin_path( @course )
 		#	else
 		#		set_flash 'Course could not be created', :error, @course
 		#		redirect_back( fallback_location: '/admin' )
@@ -77,7 +78,7 @@ module Dewey
 		#
 		#	if @course.save
 		#		set_flash 'Course Updated'
-		#		redirect_to main_app.edit_dewey_course_admin_path( id: @course.id )
+		#		redirect_to edit_course_admin_path( id: @course.id )
 		#	else
 		#		set_flash 'Course could not be Updated', :error, @course
 		#		render :edit

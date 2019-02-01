@@ -12,7 +12,7 @@ module Dewey
 					set_flash "Wrong user", :error
 					redirect_back fallback_location: '/'
 				elsif @enrollment_course_content.save
-					redirect_to Rails.application.routes.url_helpers.enrollment_course_content_path( @enrollment_course_content )
+					redirect_to Rails.application.routes.url_helpers.dewey_enrollment_course_content_path( @enrollment_course_content )
 				else
 					set_flash "Unable to enroll course content", :error, @enrollment_course_content
 					redirect_back fallback_location: '/'
@@ -39,7 +39,7 @@ module Dewey
 
 				@enrollment_course_content.update( completed_at: Time.now ) unless @enrollment_course_content.completed_at.present?
 
-				redirect_to Rails.application.routes.url_helpers.enrollment_path( @enrollment_course_content.enrollment )
+				redirect_to Rails.application.routes.url_helpers.dewey_enrollment_path( @enrollment_course_content.enrollment )
 			end
 
 			protected

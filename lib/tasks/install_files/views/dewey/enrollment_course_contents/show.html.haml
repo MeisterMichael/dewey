@@ -4,9 +4,9 @@
 			%nav{ 'aria-label' => 'breadcrumb' }
 				%ol.breadcrumb
 					%li.breadcrumb-item
-						%a{ href: main_app.enrollments_path() } My Courses
+						%a{ href: main_app.dewey_enrollments_path() } My Courses
 					%li.breadcrumb-item
-						%a{ href: main_app.enrollment_path( @enrollment.id ) }
+						%a{ href: main_app.dewey_enrollment_path( @enrollment.id ) }
 							= @course_content.course.title
 					%li.breadcrumb-item.active{ 'aria-current' => 'page' }=@course_content.title
 
@@ -17,5 +17,5 @@
 			%hr
 			.fr-view.mtb-30
 				= raw @course_content.content
-			= form_for @enrollment_course_content, url: main_app.complete_enrollment_course_content_path( @enrollment_course_content ) do |f|
+			= form_for @enrollment_course_content, url: main_app.complete_dewey_enrollment_course_content_path( @enrollment_course_content ) do |f|
 				= f.submit 'Complete', class: 'btn btn-md btn-dark'

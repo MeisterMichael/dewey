@@ -13,7 +13,7 @@ module Dewey
 
 				if @course_content.save
 					set_flash 'Course Content Created'
-					redirect_to Rails.application.routes.url_helpers.edit_course_content_admin_path( id: @course_content.id )
+					redirect_to Rails.application.routes.url_helpers.edit_dewey_course_content_admin_path( id: @course_content.id )
 				else
 					set_flash 'CourseContent could not be created', :error, @course_content
 					render :new
