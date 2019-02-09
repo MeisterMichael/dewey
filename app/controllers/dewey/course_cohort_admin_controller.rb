@@ -38,7 +38,7 @@ module Dewey
 
 			if @course_cohort.save
 				set_flash 'Course Cohort Updated'
-				redirect_to main_app.edit_dewey_course_admin_path( id: @course_cohort.course.id )
+				redirect_to dewey.edit_course_admin_path( id: @course_cohort.course.id )
 			else
 				set_flash 'Course Cohort could not be Updated', :error, @course_cohort
 				render :edit

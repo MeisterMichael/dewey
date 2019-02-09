@@ -10,9 +10,11 @@ module Dewey
 
 		# engine configuration settings accessors
 		mattr_accessor :courses_path
+		mattr_accessor :enrollments_path
 
 		# settings defaults
 		self.courses_path = '/courses'
+		self.enrollments_path = '/myclasses'
 
 	end
 

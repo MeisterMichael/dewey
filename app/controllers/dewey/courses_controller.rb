@@ -1,8 +1,7 @@
 module Dewey
 
 	class CoursesController < ApplicationController
-			include Dewey::Concerns::CourseControllerConcern
-			include DeweyConcern
+			include Dewey::Concerns::DeweyConcern
 
 			def index
 				@courses = Dewey::Course.published

@@ -1,10 +1,10 @@
 module Dewey
 	module Concerns
-
-		module CourseControllerConcern
+		module DeweyConcern
 			extend ActiveSupport::Concern
 
 			included do
+				
 			end
 
 
@@ -21,10 +21,8 @@ module Dewey
 			####################################################
 			# Instance Methods
 
-			protected
 
 
 		end
-
 	end
 end

@@ -21,11 +21,11 @@
 		.col-xs-6
 			= raw paginate @courses
 		.col-xs-6
-			= form_tag main_app.dewey_course_admin_index_path, method: :get, class: 'pull-right form-inline' do
+			= form_tag dewey.course_admin_index_path, method: :get, class: 'pull-right form-inline' do
 				= select_tag :status, options_from_collection_for_select( Dewey::Course.statuses, :first, :first, params[:status] ), { prompt: "-- All --", class: 'form-control' }
 				= text_field_tag :q, params[:q], class: 'form-control'
 				= submit_tag 'Search', class: 'btn btn-primary'
-				= link_to 'Clear', main_app.dewey_course_admin_index_path, class: 'btn btn-default btn-xs'
+				= link_to 'Clear', dewey.course_admin_index_path, class: 'btn btn-default btn-xs'
 
 	.row
 		.col-xs-12
@@ -34,16 +34,16 @@
 					%th
 					%th
 						Title
-						%a{ href: main_app.dewey_course_admin_index_path( sort_by: 'title', sort_dir: 'asc' ) }
+						%a{ href: dewey.course_admin_index_path( sort_by: 'title', sort_dir: 'asc' ) }
 							%i.fa.fa-arrow-up
-						%a{ href: main_app.dewey_course_admin_index_path( sort_by: 'title', sort_dir: 'desc' ) }
+						%a{ href: dewey.course_admin_index_path( sort_by: 'title', sort_dir: 'desc' ) }
 							%i.fa.fa-arrow-down
 
 					%th
 						Publish
-						%a{ href: main_app.dewey_course_admin_index_path( sort_by: 'publish_at', sort_dir: 'asc' ) }
+						%a{ href: dewey.course_admin_index_path( sort_by: 'publish_at', sort_dir: 'asc' ) }
 							%i.fa.fa-arrow-up
-						%a{ href: main_app.dewey_course_admin_index_path( sort_by: 'publish_at', sort_dir: 'desc' ) }
+						%a{ href: dewey.course_admin_index_path( sort_by: 'publish_at', sort_dir: 'desc' ) }
 							%i.fa.fa-arrow-down
 
 					%th Status
@@ -54,7 +54,7 @@
 							%td
 								= image_tag course.avatar.to_s, width: 50, class: 'img img-rounded'
 							%td
-								.title{ style: 'font-size:120%;' }= link_to course.title, main_app.edit_dewey_course_admin_path( course.id )
+								.title{ style: 'font-size:120%;' }= link_to course.title, dewey.edit_course_admin_path( course.id )
 								%a.btn{ 'data-clipboard-text' => course.url, style: 'padding:0;border:none;' }
 									= course.path
 									%i.fa.fa-clipboard
@@ -83,23 +83,23 @@
 										%b.caret
 									%ul.dropdown-menu
 										%li
-											%a{ href: main_app.edit_dewey_course_admin_path( course.id ) }
+											%a{ href: dewey.edit_course_admin_path( course.id ) }
 												%i.fa.fa-pencil
 												Edit
 
 										%li
-											%a{ href: main_app.preview_dewey_course_admin_path( course.id ) }
+											%a{ href: dewey.preview_course_admin_path( course.id ) }
 												%i.fa.fa-eye
 												Preview
 										%li.divider
 										%li
-											%a{ href: main_app.dewey_course_admin_path( course ), data: { method: 'delete', confirm: 'Are you sure?' } }
+											%a{ href: dewey.course_admin_path( course ), data: { method: 'delete', confirm: 'Are you sure?' } }
 												%i.fa.fa-trash-o
 												Delete!
 
 - if Dewey::Course.trash.present?
 	.pull-right{ style: 'margin-right:2em;' }
-		%a{ href: main_app.empty_trash_dewey_course_admin_index_path, data: { method: 'delete', confirm: 'Are you sure?' } }
+		%a{ href: dewey.empty_trash_course_admin_index_path, data: { method: 'delete', confirm: 'Are you sure?' } }
 			%btn.btn.btn-danger
 				empty trash
 

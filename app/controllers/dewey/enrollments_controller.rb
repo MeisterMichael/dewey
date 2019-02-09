@@ -1,7 +1,7 @@
 module Dewey
 	class EnrollmentsController < ApplicationController
 			# include Dewey::Concerns::EnrollmentControllerConcern
-			include DeweyConcern
+			include Dewey::Concerns::DeweyConcern
 
 			before_action :authenticate_user!, except: :new
 

@@ -7,17 +7,17 @@
 				%li
 					= link_to 'Admin', main_app.admin_index_path
 				%li
-					= link_to 'Course Admin', main_app.dewey_course_admin_index_path
+					= link_to 'Course Admin', dewey.course_admin_index_path
 				%li
 					%strong
 						Edit
 						= @course.title
 		.col-xs-2
-			%a.btn.btn-primary{ href: main_app.preview_dewey_course_admin_path( @course.id ), target: '_new' }
+			%a.btn.btn-primary{ href: dewey.preview_course_admin_path( @course.id ), target: '_new' }
 				%i.fa.fa-eye
 				Preview
 
-	= form_for @course, url: main_app.dewey_course_admin_path( @course ) do |f|
+	= form_for @course, url: dewey.course_admin_path( @course ) do |f|
 
 		.row
 			.col-xs-8
@@ -25,7 +25,7 @@
 				= render 'dewey/course_admin/title_form', f: f, args: {}
 				= render 'dewey/course_admin/content_form', f: f, args: {}
 
-				= render 'dewey/course_admin/course_contents_table'
+				= render 'dewey/course_admin/course_content_section'
 
 				= render 'dewey/course_admin/course_cohorts_table'
 
@@ -35,4 +35,5 @@
 					.form-group
 						= f.submit 'Update', class: 'btn btn-primary'
 
+= render 'dewey/course_admin/new_course_content_modal', course: @course, args: {}
 = render 'dewey/course_cohort_admin/new_modal', course: @course, args: {}

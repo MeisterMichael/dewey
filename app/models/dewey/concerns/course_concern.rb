@@ -14,7 +14,6 @@ module Dewey
 				has_many :course_cohorts
 				has_many :enrollments, through: :course_cohorts
 				has_many :users, through: :enrollments
-				has_many :course_contents, class_name: 'Dewey::CourseContent'
 
 				enum status: { 'trash' => -100, 'not_available' => -50, 'wait_listed' => -1, 'draft' => 0, 'active' => 1 }
 				enum availability: { 'anyone' => 1, 'enrolled' => 2, 'invite_only' => 3 }

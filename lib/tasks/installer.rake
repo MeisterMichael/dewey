@@ -58,18 +58,6 @@ namespace :dewey do
 		puts <<-EOS
 Add the following to your config/routes.rb
 
-scope module: 'dewey' do
-	resources :courses
-	resources :course_content_admin
-	resources :enrollment_course_contents do
-		put :complete, on: :member
-		patch :complete, on: :member
-	end
-	resources :enrollments
-end
-
-...
-
 mount Dewey::Engine, :at => '/'
 
 EOS

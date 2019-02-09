@@ -19,7 +19,7 @@
 					- @enrollments.each do |enrollment|
 						%tr
 							%td
-								%a{ href: main_app.dewey_enrollment_path( enrollment ) }
+								%a{ href: dewey.enrollment_path( enrollment ) }
 									=enrollment.course.title
 							%td
 								- if enrollment.started_at

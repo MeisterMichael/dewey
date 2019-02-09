@@ -6,15 +6,14 @@
 			%nav{ 'aria-label' => 'breadcrumb' }
 				%ol.breadcrumb
 					%li.breadcrumb-item
-						%a{ href: dewey.courses_path() } Courses
+						%a{ href: dewey.enrollments_path() } My Courses
 					%li.breadcrumb-item.active{ 'aria-current' => 'page' }= @course.title
 
 			%h1= @course.title
+			- if @course.introduction.present?
+				.fr-view.mtb-30
+					%h3 Introduction
+					= raw @course.introduction
+				%hr
 			.fr-view.mtb-30
-				= raw @course.description
-			.mb-5
-				- if not( @course_cohorts.present? )
-					%strong Currently Not Enrolling
-				- else
-					- @course_cohorts.each do |course_cohort|
-						= render 'dewey/enrollments/enroll_button', course_cohort: course_cohort, args: {}
+				= raw @course.content

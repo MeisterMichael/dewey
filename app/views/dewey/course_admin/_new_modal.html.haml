@@ -6,7 +6,7 @@
 					&times;
 				%h4.modal-title
 					New Course
-			= form_for Dewey::Course.new, url: main_app.dewey_course_admin_index_path do |f|
+			= form_for Dewey::Course.new, url: dewey.course_admin_index_path do |f|
 				.modal-body
 					= f.label :title
 					= f.text_field :title, class: 'form-control'

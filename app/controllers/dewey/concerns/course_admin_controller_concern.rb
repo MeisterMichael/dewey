@@ -30,7 +30,7 @@ module Dewey
 
 				if @course.save
 					set_flash 'Course Created'
-					redirect_to main_app.edit_dewey_course_admin_path( @course )
+					redirect_to dewey.edit_course_admin_path( @course )
 				else
 					set_flash 'Course could not be created', :error, @course
 					redirect_back( fallback_location: '/admin' )
@@ -49,7 +49,6 @@ module Dewey
 			def edit
 				authorize( @course )
 				@course_cohorts = @course.course_cohorts.order(id: :desc).page(params[:page]).per(20)
-				@course_contents = @course.course_contents.order(seq: :asc, id: :asc).page(params[:page]).per(20)
 			end
 
 
@@ -96,7 +95,7 @@ module Dewey
 
 				if @course.save
 					set_flash 'Course Updated'
-					redirect_to main_app.edit_dewey_course_admin_path( id: @course.id )
+					redirect_to dewey.edit_course_admin_path( id: @course.id )
 				else
 					set_flash 'Course could not be Updated', :error, @course
 					render :edit
