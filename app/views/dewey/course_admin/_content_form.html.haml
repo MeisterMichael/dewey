@@ -28,14 +28,14 @@
 	= f.label :description, 'Description'
 	= f.text_area :description, class: 'form-control wysiwyg', data: { wysiwyg: { height_min: 200, toolbar_sticky: false, toolbar_preset: 'admin_default', object_class: @course.class.base_class.name, object_id: @course.id }.to_json }
 
-.form-group
+-# .form-group
 	= f.label :introduction
 	= f.text_area :introduction, class: 'form-control wysiwyg', data: { wysiwyg: { height_min: 200, toolbar_sticky: true, toolbar_preset: 'admin_default', object_class: @course.class.base_class.name, object_id: @course.id }.to_json }
 
-.form-group
+-# .form-group
 	= f.label :content
 	= f.text_area :content, class: 'form-control wysiwyg', data: { wysiwyg: { height_min: 200, toolbar_sticky: true, toolbar_preset: 'admin_default', object_class: @course.class.base_class.name, object_id: @course.id }.to_json }
 
-.form-group
+-# .form-group
 	= f.label :syllabus
 	= f.text_area :syllabus, class: 'form-control wysiwyg', data: { wysiwyg: { height_min: 200, toolbar_sticky: true, toolbar_preset: 'admin_default', object_class: @course.class.base_class.name, object_id: @course.id }.to_json }

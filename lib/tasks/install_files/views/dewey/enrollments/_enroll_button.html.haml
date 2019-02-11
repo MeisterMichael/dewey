@@ -1,0 +1,17 @@
+- if current_user.present?
+	- if ( enrollment = args[:current_enrollment] || current_user.enrollments.where( course_cohort: Dewey::CourseCohort.where( course: course_cohort.course ) ).last ).present?
+		%a.btn.btn-md.btn-dark{ href: dewey.enrollment_path( enrollment ) }
+			= args[:resume_label] || 'Resume'
+	- else
+		%a.btn.btn-md.btn-dark{ href: dewey.enrollments_path( enrollment: { course_cohort_id: course_cohort.id } ), data: { method: :post } }
+			= args[:user_label] || args[:label] || 'Enroll'
+- else
+
+	= form_for Dewey::Enrollment.new( course_cohort: course_cohort ), url: dewey.enrollments_path(), html: { class: 'form' } do |f|
+		= render 'application/register_then'
+		= f.hidden_field :course_cohort_id
+		= f.submit (args[:user_label] || args[:label] || 'Enroll'), class: 'btn btn-md btn-dark'
+		%span.align-middle
+			Already have an account?
+			%a{ href: '/login' } Login here
+			to start enrolling.

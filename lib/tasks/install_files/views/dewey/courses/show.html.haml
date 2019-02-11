@@ -22,7 +22,6 @@
 				- Dewey::CoursePage.each_with_level(@course.course_page.descendants.active.where( "pulitzer_media.publish_at <= :now", now: Time.zone.now )) do |page, level|
 					%div{ style: "margin-left: #{level-1}em" }
 						%h5= page.title
-						= raw page.description
 
 			.addthis_inline_share_toolbox.share-5.mb-5
 			- if defined?( Scuttlebutt )

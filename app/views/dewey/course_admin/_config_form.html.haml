@@ -23,18 +23,18 @@
 	= f.label :availability
 	= f.collection_select :availability, Dewey::Course.availabilities, :first, :first, {}, class: 'form-control'
 
-.form-group
+-# .form-group
 	= f.label :course_type
 	= f.collection_select :course_type, Dewey::Course.course_types, :first, :first, {}, class: 'form-control'
 
-.form-group
+-# .form-group
 	= f.label :course_content_schedule
 	= f.collection_select :course_content_schedule, Dewey::Course.course_content_schedules, :first, :first, {}, class: 'form-control'
 
-.form-group
+-# .form-group
 	= f.label :course_content_flow
 	= f.collection_select :course_content_flow, Dewey::Course.course_content_flows, :first, :first, {}, class: 'form-control'
 
-.form-group
+-# .form-group
 	= f.label :start_schedule
 	= f.collection_select :start_schedule, Dewey::Course.start_schedules, :first, :first, {}, class: 'form-control'
