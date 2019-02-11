@@ -1,5 +1,9 @@
 Dewey::Engine.routes.draw do
 
+	resources :course_page_admin do
+		get :preview, on: :member
+	end
+
 	resources :course_admin do
 		get :preview, on: :member
 		delete :empty_trash, on: :collection

@@ -1,0 +1,22 @@
+- if @media.cover_attachment.attached?
+	%img.pb-3{ src: @media.cover_attachment.service_url }
+.container
+	.row
+		.col-12
+			%nav{ 'aria-label' => 'breadcrumb' }
+				%ol.breadcrumb
+					%li.breadcrumb-item
+						%a{ href: dewey.enrollments_path() } My Courses
+					%li.breadcrumb-item{ 'aria-current' => 'page' }
+						%a{ href: dewey.enrollment_path( current_user.enrollments.where( course_cohort: Dewey::CourseCohort.where( course: @media.course ) ).last ) }= @media.course.title
+					%li.breadcrumb-item.active{ 'aria-current' => 'page' }=@media.title
+
+			.row
+				.col-md-8.col-lg-9
+					%h1= @media.title
+					.fr-view.mtb-30
+						= raw @media.content
+					-# @media.content_sections.each do |section|
+						= render_section( section )
+				.col-md-4.col-lg-3
+					= render 'dewey/enrollments/sidebar', course: @media.course, enrollment: current_user.enrollments.where( course_cohort: Dewey::CourseCohort.where( course: @media.course ) ).last, args: { page: @media }

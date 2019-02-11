@@ -1,0 +1,109 @@
+
+.container-fluid
+	.row
+		.col-xs-10
+			%ul.breadcrumb
+				%li
+					= link_to 'Admin', main_app.admin_index_path
+				%li
+					= link_to "Course Admin", dewey.course_admin_index_path
+				%li
+					= link_to @page.course.title, dewey.edit_course_admin_path( @page.course )
+				- @page.ancestors.each do |ancestor|
+					%li
+						= link_to ancestor.title, dewey.edit_course_page_admin_path( ancestor )
+
+				%li
+					%strong
+						Edit
+						= @page.title
+		.col-xs-2
+			%a.btn.btn-primary{ href: dewey.preview_course_page_admin_path( @page.id ), target: '_new' }
+				%i.fa.fa-eye
+				Preview
+
+	= form_for @page, url: dewey.course_page_admin_path( @page ), as: :page do |f|
+
+		.row
+			.col-sm-8
+				.form-group
+					= f.label :title
+					= f.text_field :title, class: 'form-control'
+
+				.form-group
+					= f.label :subtitle
+					= f.text_field :subtitle, class: 'form-control'
+
+				.form-group
+					.input-group
+						= f.label :slug_pref, 'URL for this page:'
+						= f.text_field :slug_pref, class: 'form-control', placeholder: @page.slug
+						%span.input-group-btn
+							%a.btn.btn-default{ 'data-clipboard-text' => @page.url }
+								%i.fa.fa-clipboard
+
+				.form-group
+					%label Layout Name
+					= f.text_field :layout, class: 'form-control'
+
+				.form-group
+					%label Template Name
+					= f.text_field :template, class: 'form-control'
+
+
+				.form-group
+					= f.label :avatar_attachment, "Avatar Image"
+					= f.file_field :avatar_attachment
+					- if @page.avatar
+						= image_tag @page.avatar, class: 'img-responsive'
+						%a.btn.btn-default{ 'data-clipboard-text' => @page.avatar }
+							%i.fa.fa-clipboard
+
+				.form-group
+					= f.label :cover_attachment, "Cover Image"
+					= f.file_field :cover_attachment
+					- if @page.cover_image
+						= image_tag @page.cover_image, class: 'img-responsive'
+						%a.btn.btn-default{ 'data-clipboard-text' => @page.cover_image }
+							%i.fa.fa-clipboard
+
+				.form-group
+					= f.text_area :content, class: 'form-control wysiwyg', data: { wysiwyg: { height_min: 200, toolbar_sticky: true, toolbar_preset: 'admin_default', object_class: @page.class.base_class.name, object_id: @page.id }.to_json }
+
+
+			.col-sm-4
+				.well
+					.form-group
+						= f.label :publish_at
+						= f.text_field :publish_at, value: current_user.to_local_tz( @page.publish_at ), class: 'form-control datetimepicker'
+					.form-group
+						= f.label :status
+						= f.collection_select :status, Pulitzer::Page.statuses, :first, :first, {}, class: 'form-control'
+					.form-group
+						= f.submit 'Update', class: 'btn btn-primary'
+						.pull-right= link_to 'Cancel', :back, class: 'btn btn-default btn-sm'
+	.row
+		.col-12.col-sm-8
+			= render 'dewey/course_page_admin/course_pages', course_page: @page, args: {}
+
+	.row
+		.col-sm-8
+			.row
+				.col-sm-8
+					%h3
+						Content Sections
+				.col-sm-4
+					%a.btn.btn-success.pull-right{ href: '#new_section', data: { toggle: :modal, target: '#new_section' }, style: 'margin-top:1em;' }
+						%i.fa-fa-plus
+						Add
+
+			-# @page.content_sections.each do |section|
+				= render 'pulitzer/content_sections/form', section: section
+
+
+
+		.col-sm-4
+
+
+= render 'pulitzer/content_sections/new_modal', parent: @page
+= render 'dewey/course_page_admin/new_modal', course_page: @page, args: {}

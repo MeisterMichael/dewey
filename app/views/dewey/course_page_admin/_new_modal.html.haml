@@ -1,0 +1,21 @@
+
+#new_course_page_modal.modal.fade
+	.modal-dialog
+		.modal-content
+			.modal-header
+				%button.close{ type: :button, 'data-dismiss' => 'modal', 'aria-hidden' => 'true' }
+					&times;
+				%h4.modal-title
+					New Page
+			= form_for Dewey::CoursePage.new( parent: course_page ), as: :page, url: dewey.course_page_admin_index_path do |f|
+				= f.hidden_field :parent_id
+				.modal-body
+					= f.label :title
+					= f.text_field :title, class: 'form-control'
+
+					= f.label :description
+					= f.text_area :description, class: 'form-control'
+				.modal-footer
+					%button.btn.btn-default{ type: :button, 'data-dismiss' => 'modal' }
+						Close
+					= f.submit 'Create', class: 'btn btn-primary'

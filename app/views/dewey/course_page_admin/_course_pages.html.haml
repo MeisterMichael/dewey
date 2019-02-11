@@ -1,0 +1,24 @@
+
+
+%a.pull-right.btn.btn-success{ data: { toggle: :modal, target: '#new_course_page_modal' } }
+	%i.fa.fa-plus-square
+	New
+%h4 Course Pages
+.clearfix
+
+%table.table.table-striped.table-hover{ style: 'margin-top: 1em' }
+	%thead
+		%th Title
+		%td Status
+	%tbody
+		- course_page.self_and_descendants.where.not( status: :trash ).order( lft: :asc ).each do |page|
+			%tr
+				%td
+					- (page.ancestors.count - course_page.ancestors.count).times do
+						&nbsp;&nbsp;&nbsp;
+
+					%i.fa.fa-arrow-right
+					%a{ href: dewey.edit_course_page_admin_path(page)  }
+						=page.title
+				%td
+					= page.status
