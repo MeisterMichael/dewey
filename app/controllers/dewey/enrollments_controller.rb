@@ -38,6 +38,8 @@ module Dewey
 			def show
 				@enrollment = current_user.enrollments.find( params[:id] )
 				@course = @enrollment.course
+				@previous_course_pages = Dewey::CoursePage.none
+				@next_course_pages = @course.course_page.descendants.publish_at_before_now.active.order(lft: :asc)
 
 				set_page_meta( @course.page_meta )
 			end
