@@ -31,7 +31,7 @@ module Dewey
 			end
 
 			def new
-				@course = Dewey::Course.find( params[:course_id] )
+				@course = Dewey::Course.friendly.find( params[:course_id] )
 				@course_cohort = @course.course_cohorts.open_for_enrollment.order( id: :desc ).first
 				@enrollment = Dewey::Enrollment.new( user: current_user, course_cohort: @course_cohort )
 
