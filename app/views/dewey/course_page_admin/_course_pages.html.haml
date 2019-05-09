@@ -22,3 +22,11 @@
 						=page.title
 				%td
 					= page.status
+		- if (completed_course_page = args[:completed_course_page])
+			%tr
+				%td
+					%i.fa.fa-arrow-right
+					%a{ href: dewey.edit_course_page_admin_path(completed_course_page)  }
+						=completed_course_page.title
+				%td
+					= completed_course_page.status

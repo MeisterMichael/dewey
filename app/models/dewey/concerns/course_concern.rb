@@ -10,6 +10,7 @@ module Dewey
 				before_save :set_avatar
 
 				belongs_to :course_page, optional: true
+				belongs_to :completed_course_page, optional: true, class_name: 'Dewey::CoursePage'
 				belongs_to :instructor, class_name: 'User', optional: true
 
 				has_many :course_cohorts

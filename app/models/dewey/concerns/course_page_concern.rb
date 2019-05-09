@@ -29,7 +29,7 @@ module Dewey
 
 			def course
 				if self.parent_id.nil?
-					super()
+					super() || Dewey::Course.find_by( completed_course_page: self )
 				else
 					root.course
 				end

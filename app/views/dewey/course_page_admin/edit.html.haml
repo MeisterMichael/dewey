@@ -82,11 +82,12 @@
 					.form-group
 						= f.submit 'Update', class: 'btn btn-primary'
 						.pull-right= link_to 'Cancel', :back, class: 'btn btn-default btn-sm'
-	.row
-		.col-12.col-sm-8
-			= render 'dewey/course_page_admin/course_pages', course_page: @page, args: {}
+	- if @page.root.course.try(:completed_course_page) != @page
+		.row
+			.col-12.col-sm-8
+				= render 'dewey/course_page_admin/course_pages', course_page: @page, args: {}
 
-	.row
+	-# .row
 		.col-sm-8
 			.row
 				.col-sm-8

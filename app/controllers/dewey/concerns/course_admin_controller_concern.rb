@@ -26,6 +26,7 @@ module Dewey
 				@course = Course.new( course_params )
 				@course.status = 'draft'
 				@course.course_page = Dewey::CoursePage.new( user: current_user, title: "Course Home" )
+				@course.completed_course_page = Dewey::CoursePage.new( user: current_user, status: 'draft', title: "Course Complete" )
 
 				authorize( @course )
 
