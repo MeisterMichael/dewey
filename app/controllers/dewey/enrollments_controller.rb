@@ -13,6 +13,7 @@ module Dewey
 
 				if @enrollment.save
 					log_event( { name: 'enrolled', category: 'dewey', on: @enrollment.course, content: "enrolled in #{@enrollment.course.title}." } )
+					cookies[:enrolled] = '1' # set a cookie so the redirected page knows to log a enrolled event in the page event data
 
 					set_flash "Congratulations you are enrolled!", :success
 					redirect_to enrollment_path( @enrollment )
@@ -45,6 +46,8 @@ module Dewey
 				@course = @enrollment.course
 				@previous_course_pages = Dewey::CoursePage.none
 				@next_course_pages = @course.course_page.descendants.publish_at_before_now.active.order(lft: :asc)
+
+				add_page_event_data( event: 'enrollment', label: @course.title, id: @course.id, slug: @course.slug ) if cookies[:enrolled] && cookies.delete(:enrolled)
 
 				log_event( { name: 'pageview', on: @course } )
 
