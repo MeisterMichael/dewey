@@ -5,7 +5,7 @@ module Dewey
 			extend ActiveSupport::Concern
 
 			included do
-				include Pulitzer::Concerns::URLConcern
+				include Pulitzer::Concerns::UrlConcern
 
 				belongs_to :user, class_name: 'User'
 				belongs_to :course_cohort

@@ -6,8 +6,6 @@ require 'friendly_id'
 
 module Dewey
 
-	class << self
-
 		# engine configuration settings accessors
 		mattr_accessor :courses_path
 		mattr_accessor :enrollments_path
@@ -15,8 +13,6 @@ module Dewey
 		# settings defaults
 		self.courses_path = '/courses'
 		self.enrollments_path = '/myclasses'
-
-	end
 
 	# this function maps the vars from your app into the engine
      def self.configure( &block )

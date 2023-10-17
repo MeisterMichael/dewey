@@ -1,3 +1,3 @@
 module Dewey
-  VERSION = '1.4.0'
+  VERSION = '3.0.0'
 end
