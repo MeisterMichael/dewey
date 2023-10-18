@@ -5,7 +5,7 @@ module Dewey
 			extend ActiveSupport::Concern
 
 			included do
-				include Pulitzer::Concerns::URLConcern
+				include Pulitzer::Concerns::UrlConcern
 
 				before_save :set_avatar
 
