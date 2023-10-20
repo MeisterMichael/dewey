@@ -67,7 +67,7 @@ module Dewey
 				sort_by = params[:sort_by] || 'publish_at'
 				sort_dir = params[:sort_dir] || 'desc'
 
-				@courses = Course.order( "#{sort_by} #{sort_dir}" )
+				@courses = Course.order( Arel.sql("#{sort_by} #{sort_dir}") )
 
 				if params[:status].present? && params[:status] != 'all'
 					@courses = eval "@courses.#{params[:status]}"
